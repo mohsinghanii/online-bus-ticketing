@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
-
+import './index.css'
 class Register extends Component {
   constructor() {
     super();
@@ -56,7 +56,7 @@ class Register extends Component {
       <div className="register">
         <div className="container">
           <div className="row">
-            <div className="col-md-8 m-auto">
+            <div className="col-md-8 m-auto fade-in signup-form-container">
               <h1 className="display-4 text-center">Sign Up</h1>
               <p className="lead text-center">
                 Create your Secured.fyi account

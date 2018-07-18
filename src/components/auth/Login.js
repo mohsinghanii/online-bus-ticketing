@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
-
+import './index.css'
 class Login extends Component {
   constructor() {
     super();
@@ -55,7 +55,7 @@ class Login extends Component {
       <div className="login">
         <div className="container">
           <div className="row">
-            <div className="col-md-8 m-auto">
+            <div className="col-md-8 m-auto fade-in login-form-container">
               <h1 className="display-4 text-center">Log In</h1>
               <p className="lead text-center">
                 Sign in to your Secured.fyi account
