@@ -25,7 +25,7 @@ import Profile from './components/profile/Profile';
 import Item from './components/item/Item';
 import NotFound from './components/not-found/NotFound';
 import AddCategory from './components/auth/AddCategory';
-
+import 'typeface-roboto'
 import './App.css';
 
 // Check for token
