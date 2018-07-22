@@ -6,6 +6,7 @@ import {
 export class userAuthActions {
 
     static signup(user) {
+        debugger
         return {
             type: SIGNUP,
             payload: user
