@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { registerUser } from '../../actions/authActions';
+import { userAuthActions } from '../../store/actions/userAction';
 import TextFieldGroup from '../common/TextFieldGroup';
 import './index.css'
 class Register extends Component {
@@ -37,6 +37,7 @@ class Register extends Component {
   }
 
   onSubmit(e) {
+    debugger
     e.preventDefault();
 
     const newUser = {
@@ -46,7 +47,9 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registerUser(newUser, this.props.history);
+    // this.props.registerUser(newUser, this.props.history);
+    this.props.registerUser(newUser);
+
   }
 
   render() {
@@ -111,11 +114,17 @@ Register.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  auth: state.userAuth,
   errors: state.errors
 });
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    registerUser : (useObj) => dispatch(userAuthActions.signup(useObj))
+  }
+}
+
 export default connect(
   mapStateToProps,
-  { registerUser }
+  mapDispatchToProps
 )(withRouter(Register));

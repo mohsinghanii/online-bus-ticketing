@@ -94,7 +94,7 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.userAuth
 });
 
 export default connect(
