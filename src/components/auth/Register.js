@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { userAuthActions } from '../../store/actions/userAction';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { Alert } from '../common/Alert';
+import { Loading } from '../common/loadingComponent';
 
 import './index.css'
 class Register extends Component {
@@ -98,6 +99,7 @@ class Register extends Component {
   
                 />
                 <input type="submit" className="btn btn-info btn-block mt-4" />
+                 <Loading type="balls" color = "#000" isLoading={this.props.isLoading}/>
               </form>
             </div>
           </div>
@@ -111,13 +113,15 @@ Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.string,
-  isError: PropTypes.bool.isRequired
+  isError: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.userAuth,
   error: state.userAuth.error,
-  isError: state.userAuth.isError
+  isError: state.userAuth.isError,
+  isLoading : state.userAuth.isLoading
 });
 
 const mapDispatchToProps = (dispatch) => {
