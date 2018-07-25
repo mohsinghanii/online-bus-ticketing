@@ -24,6 +24,8 @@ import AddCategory from './components/auth/AddCategory';
 import 'typeface-roboto'
 import './App.css';
 
+import CreateCompany from './components/CreateCompany/index'
+
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -61,6 +63,9 @@ class App extends Component {
               <Route exact path="/:categoryname-:itemname" component={Item} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/create-company" component={CreateCompany} />
               </Switch>
               <Switch>
                 <PrivateRoute

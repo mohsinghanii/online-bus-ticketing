@@ -1,0 +1,44 @@
+.add-company-card{
+    width: 100px;
+    height: 100px;
+    display: table;
+}
+
+.add-company-button-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.add-company-button {    
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 75px;
+    height: 75px;
+    outline: none;
+    border-radius: 100%;
+}
+
+.add-company-button img{
+    opacity: 0.5;
+    width: 65px;
+    height: 65px;
+}
+
+.add-company-button:hover {
+    outline: none;
+    transition: 0.5s;
+}
+
+.create-company-text{
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #555;
+    font-weight: bold;
+    width: 100px;
+    text-align: center;
+}
+        
