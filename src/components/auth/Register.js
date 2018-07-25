@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { registerUser } from '../../actions/authActions';
+import { userAuthActions } from '../../store/actions/userAction';
 import TextFieldGroup from '../common/TextFieldGroup';
+import { Alert } from '../common/Alert';
+import { Loading } from '../common/loadingComponent';
+
 import './index.css'
 class Register extends Component {
   constructor() {
@@ -13,7 +16,7 @@ class Register extends Component {
       email: '',
       password: '',
       password2: '',
-      errors: {}
+      error:''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -27,8 +30,8 @@ class Register extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps.isError) {
+      this.setState({ error: nextProps.error });
     }
   }
 
@@ -46,11 +49,13 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registerUser(newUser, this.props.history);
+    // this.props.registerUser(newUser, this.props.history);
+    this.props.registerUser(newUser);
+
   }
 
   render() {
-    const { errors } = this.state;
+    const { error } = this.state;
 
     return (
       <div className="register">
@@ -61,13 +66,14 @@ class Register extends Component {
               <p className="lead text-center">
                 Create your Secured.fyi account
               </p>
+              <Alert type="danger" isError={this.props.isError} errorMessage={this.state.error}/>
               <form noValidate onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   placeholder="Name"
                   name="name"
                   value={this.state.name}
                   onChange={this.onChange}
-                  error={errors.name}
+        
                 />
                 <TextFieldGroup
                   placeholder="Email"
@@ -75,7 +81,6 @@ class Register extends Component {
                   type="email"
                   value={this.state.email}
                   onChange={this.onChange}
-                  error={errors.email}
                   info="This site uses Gravatar so if you want a profile image, use a Gravatar email"
                 />
                 <TextFieldGroup
@@ -84,7 +89,6 @@ class Register extends Component {
                   type="password"
                   value={this.state.password}
                   onChange={this.onChange}
-                  error={errors.password}
                 />
                 <TextFieldGroup
                   placeholder="Confirm Password"
@@ -92,9 +96,10 @@ class Register extends Component {
                   type="password"
                   value={this.state.password2}
                   onChange={this.onChange}
-                  error={errors.password2}
+  
                 />
                 <input type="submit" className="btn btn-info btn-block mt-4" />
+                 <Loading type="balls" color = "#000" isLoading={this.props.isLoading}/>
               </form>
             </div>
           </div>
@@ -107,15 +112,25 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.string,
+  isError: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.userAuth,
+  error: state.userAuth.error,
+  isError: state.userAuth.isError,
+  isLoading : state.userAuth.isLoading
 });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    registerUser : (useObj) => dispatch(userAuthActions.signup(useObj))
+  }
+}
 
 export default connect(
   mapStateToProps,
-  { registerUser }
+  mapDispatchToProps
 )(withRouter(Register));

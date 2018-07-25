@@ -30,8 +30,8 @@ class Navbar extends Component {
           >
             <img
               className="rounded-circle"
-              src={user.avatar}
-              alt={user.name}
+              // src={user.avatar}
+              // alt={user.name}
               style={{ width: '25px', marginRight: '5px' }}
               title="You must have a Gravatar connected to your email to display an image"
             />{' '}
@@ -94,7 +94,7 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.userAuth
 });
 
 export default connect(
