@@ -34,7 +34,7 @@ export default function userAuthReducer(state = initialState, action) {
                 isLoading: false,
                 isError: true,
                 user: null,
-                error: action.payload.error,
+                error: action.payload,
             }
         case SIGNIN:
             return {
