@@ -12,32 +12,42 @@ export default class AuthEpic {
         action$.ofType(SIGNUP)
             .mergeMap(({ payload }) => {
                 return Observable.fromPromise(auth.doCreateUserWithEmailAndPassword(payload.email, payload.password))
-                .catch((err) => {
-                    return Observable.of({
-                        type: SIGNUP_FAILURE,
-                        payload: err.message
+                    .catch((err) => {
+                        return Observable.of({
+                            type: SIGNUP_FAILURE,
+                            payload: err.message
+                        })
                     })
-                })
-                   .map((response)=>{
-                        return {...response , ...payload}
-                   })                    
+                    .map((response)=>{
+                            return {...response , ...payload}
+                    })                    
             })
             .switchMap((obj)=>{
-                debugger
-                return Observable.fromPromise(db.doCreateUser(obj.user.uid, obj.email, obj.password))
-                       .map((response)=>{
-                           debugger
+                if(obj.type === SIGNUP_FAILURE){
+                   return Observable.of(
+                       {
+                           type: SIGNUP_FAILURE,
+                           payload: obj.payload
+                       }
+                   )
+                }
+                else{
+                    return Observable.fromPromise(db.doCreateUser(obj.user.uid, obj.email, obj.password))
+                        .map((response)=>{
+                            debugger
                             return Observable.of({
                                 type: SIGNUP_SUCCESS,
                                 payload: {data: response }
                             })
-                       })
+                        })
                         .catch((err) => {
                             return Observable.of({
                                 type: SIGNUP_FAILURE,
                                 payload: err.message
                             })
                         })
+                }
+               
             })
 
         static createUser = (action$) =>
