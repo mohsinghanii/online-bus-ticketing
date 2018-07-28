@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { auth } from './firebase/index';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
@@ -27,7 +28,8 @@ import './App.css';
 import CreateCompany from './components/CreateCompany/index'
 
 // Check for token
-if (localStorage.jwtToken) {
+if (auth.getCurrentUser) {
+  console.log(auth.getCurrentUser)
   // Set auth token header auth
   // setAuthToken(localStorage.jwtToken);
   // // Decode token and get user info and expiration
