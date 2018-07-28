@@ -17,3 +17,6 @@ export const doSignOut = () =>
 // Password Change
 export const doPasswordUpdate = (password) =>
   auth.currentUser.updatePassword(password);
+
+export const getCurrentUser = () => 
+  auth.currentUser
