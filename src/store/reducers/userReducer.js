@@ -24,7 +24,8 @@ export default function userAuthReducer(state = initialState, action) {
             return {
                 ...state,
                 isError: false,
-                user: action.payload.data,
+                user: action.payload,
+                isAuthenticated: true,
                 isLoading: false,
                 error: null,
             }
@@ -32,6 +33,7 @@ export default function userAuthReducer(state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
+                isAuthenticated: false,
                 isError: true,
                 user: null,
                 error: action.payload,
