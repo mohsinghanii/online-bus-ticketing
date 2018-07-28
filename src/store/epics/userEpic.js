@@ -2,7 +2,7 @@ import {
     SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE,
     CREATE_USER_IN_DB_FAILURE, CREATE_USER_IN_DB_SUCCESS,
 } from '../constants';
-import { auth, db } from './../../firebase/';
+import { auth, db} from './../../firebase/';
 import { Observable } from 'rxjs/Rx';
 
 //** Epic Middlewares For Auth **//
@@ -34,11 +34,10 @@ export default class AuthEpic {
                 else{
                     return Observable.fromPromise(db.doCreateUser(obj.user.uid, obj.email, obj.password))
                         .map((response)=>{
-                            debugger
-                            return Observable.of({
+                            return {
                                 type: SIGNUP_SUCCESS,
-                                payload: {data: response }
-                            })
+                                payload: { ...obj  }
+                            }
                         })
                         .catch((err) => {
                             return Observable.of({
@@ -49,27 +48,6 @@ export default class AuthEpic {
                 }
                
             })
-
-        static createUser = (action$) =>
-            action$.ofType(SIGNUP_SUCCESS)
-                .switchMap(({ payload }) => {
-                          debugger
-                    return Observable.fromPromise(db.doCreateUser(payload.user.uid, payload.password))
-                       .switchMap((response)=>{
-                            return Observable.of({
-                                type: CREATE_USER_IN_DB_SUCCESS,
-                                payload: {data: response }
-                            })
-                       })
-                        .catch((err) => {
-                            return Observable.of({
-                                type: CREATE_USER_IN_DB_FAILURE,
-                                payload: err.message
-                            })
-                        })
-                        
-    
-                })
 
 }
 
