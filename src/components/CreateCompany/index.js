@@ -6,6 +6,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
+import Card from '@material-ui/core/Card';
 // import { createProfile } from '../../actions/profileActions';
 import './index.css'
 
@@ -128,98 +129,92 @@ class CreateCompany extends Component {
     ];
 
     return (
-      <div className="create-profile">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto fade-in create-company-form-container">
-              <h1 className="display-4 text-center">Create Your Company</h1>
-              <p className="lead text-center">
-                Let's get some information to make your company stand out
+      <Card className="fade-in create-company-container">
+        <h1 className="display-4 text-center">Create Your Company</h1>
+        <p className="lead text-center">
+          Let's get some information to make your company stand out
               </p>
-              <small className="d-block pb-3">* = required fields</small>
-              <form onSubmit={this.onSubmit}>
+        <small className="d-block pb-3">* = required fields</small>
+        <form onSubmit={this.onSubmit}>
 
-                <TextFieldGroup
-                  placeholder="Company ID"
-                  name="companyId"
-                  value={this.state.companyId}
-                  onChange={this.onChange}
-                  error={errors.companyId}
-                  info="A Unique Company Id for you URL"
-                />
+          <TextFieldGroup
+            placeholder="Company ID"
+            name="companyId"
+            value={this.state.companyId}
+            onChange={this.onChange}
+            error={errors.companyId}
+            info="A Unique Company Id for you URL"
+          />
 
-                <TextFieldGroup
-                  placeholder="* Company Name"
-                  name="companyName"
-                  value={this.state.companyName}
-                  onChange={this.onChange}
-                  error={errors.companyName}
-                  info="A Company Name for Your Identification in our System"
-                />
+          <TextFieldGroup
+            placeholder="* Company Name"
+            name="companyName"
+            value={this.state.companyName}
+            onChange={this.onChange}
+            error={errors.companyName}
+            info="A Company Name for Your Identification in our System"
+          />
 
-                <SelectListGroup
-                  placeholder="City"
-                  name="city"
-                  value={this.state.city}
-                  onChange={this.onChange}
-                  options={options}
-                  error={errors.city}
-                  info="Give us a city where your head office"
-                />
+          <SelectListGroup
+            placeholder="City"
+            name="city"
+            value={this.state.city}
+            onChange={this.onChange}
+            options={options}
+            error={errors.city}
+            info="Give us a city where your head office"
+          />
 
-                <TextFieldGroup
-                  placeholder="Number of Busses"
-                  name="noOfBus"
-                  value={this.state.noOfBus}
-                  onChange={this.onChange}
-                  error={errors.noOfBus}
-                  info="Tell us how many Busses do you have"
-                  type={"number"}
-                />
+          <TextFieldGroup
+            placeholder="Number of Busses"
+            name="noOfBus"
+            value={this.state.noOfBus}
+            onChange={this.onChange}
+            error={errors.noOfBus}
+            info="Tell us how many Busses do you have"
+            type={"number"}
+          />
 
-                <TextFieldGroup
-                  placeholder="Contact Number"
-                  name="contact"
-                  value={this.state.contact}
-                  onChange={this.onChange}
-                  error={errors.contact}
-                  info="Give us your Contact number"
-                />
-                
-                <TextAreaFieldGroup
-                  placeholder="Short Detail"
-                  name="companyDetail"
-                  value={this.state.companyDetail}
-                  onChange={this.onChange}
-                  error={errors.companyDetail}
-                  info="Tell us a little about your Company"
-                />
+          <TextFieldGroup
+            placeholder="Contact Number"
+            name="contact"
+            value={this.state.contact}
+            onChange={this.onChange}
+            error={errors.contact}
+            info="Give us your Contact number"
+          />
 
-                <div className="mb-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.setState(prevState => ({
-                        displaySocialInputs: !prevState.displaySocialInputs
-                      }));
-                    }}
-                    className="btn btn-light"
-                  >
-                    Add Social Network Links
+          <TextAreaFieldGroup
+            placeholder="Short Detail"
+            name="companyDetail"
+            value={this.state.companyDetail}
+            onChange={this.onChange}
+            error={errors.companyDetail}
+            info="Tell us a little about your Company"
+          />
+
+          <div className="mb-3">
+            <button
+              type="button"
+              onClick={() => {
+                this.setState(prevState => ({
+                  displaySocialInputs: !prevState.displaySocialInputs
+                }));
+              }}
+              className="btn btn-light"
+            >
+              Add Social Network Links
                   </button>
-                  <span className="text-muted">Optional</span>
-                </div>
-                {socialInputs}
-                <input
-                  type="submit"
-                  value="Submit"
-                  className="btn btn-info btn-block mt-4"
-                />
-              </form>
-            </div>
+            <span className="text-muted">Optional</span>
           </div>
-        </div>
-      </div>
+          {socialInputs}
+          <input
+            type="submit"
+            value="Submit"
+            className="btn btn-info btn-block mt-4"
+          />
+        </form>
+      </Card>
     );
   }
 }
