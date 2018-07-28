@@ -1,12 +1,13 @@
-import { db } from './firebase';
+import { db, firestoreDb } from './firebase';
 
 // User API
 
 export const doCreateUser = (id, username, email) =>
-  db.ref(`users/${id}`).set({
+  firestoreDb.collection("users").doc(id).set({
+    id,
     username,
-    email,
-  });
+    email
+  })
 
 export const onceGetUsers = () =>
   db.ref('users').once('value');
