@@ -24,7 +24,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
+    if (this.props.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
   }
@@ -32,6 +32,10 @@ class Register extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isError) {
       this.setState({ error: nextProps.error });
+    }
+
+    if(nextProps.isAuthenticated){
+      this.props.history.push('/dashboard');
     }
   }
 
@@ -49,13 +53,11 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    // this.props.registerUser(newUser, this.props.history);
     this.props.registerUser(newUser);
 
   }
 
   render() {
-    const { error } = this.state;
 
     return (
       <div className="register">
@@ -114,14 +116,16 @@ Register.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.string,
   isError: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.userAuth,
   error: state.userAuth.error,
   isError: state.userAuth.isError,
-  isLoading : state.userAuth.isLoading
+  isLoading : state.userAuth.isLoading,
+  isAuthenticated: state.userAuth.isAuthenticated
 });
 
 const mapDispatchToProps = (dispatch) => {
