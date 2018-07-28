@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import "firebase/firestore";
 import 'firebase/auth';
 import 'firebase/database';
 
@@ -30,8 +31,12 @@ if (!firebase.apps.length) {
 
 const auth = firebase.auth();
 const db = firebase.database();
+const firestoreDb = firebase.firestore();
+const settings = {/* your settings... */ timestampsInSnapshots: true};
+firestoreDb.settings(settings);
 
 export {
   auth,
-  db
+  db,
+  firestoreDb
 };
