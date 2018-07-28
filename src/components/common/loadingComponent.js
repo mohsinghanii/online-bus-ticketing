@@ -2,7 +2,6 @@ import React from 'react';
 import ReactLoading from 'react-loading';
 
 export const Loading = ({isLoading, type, color, height = "50px", width = "50px"}) => {
-    debugger
   return (
       isLoading ?
         <div className="flexAndCenter">
