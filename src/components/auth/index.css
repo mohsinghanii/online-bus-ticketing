@@ -1,13 +1,5 @@
-.login-form-container{
-    min-height: 450px;
-    background: #fff;
-    box-shadow: 0 0 10px #eaeaea;
-    padding-top: 50px;
-}
-
+.login-form-container,
 .signup-form-container{
     min-height: 450px;
-    background: #fff;
-    box-shadow: 0 0 10px #eaeaea;
-    padding: 15px;
+    padding: 50px;
 }
