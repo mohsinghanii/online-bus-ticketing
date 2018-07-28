@@ -1,129 +1,240 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import TextFieldGroup from '../common/TextFieldGroup';
+import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import InputGroup from '../common/InputGroup';
+import SelectListGroup from '../common/SelectListGroup';
+// import { createProfile } from '../../actions/profileActions';
+import './index.css'
 
-const styles = theme => ({
-  root: {
-    width: '90%',
-  },
-  button: {
-    marginTop: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-  },
-  actionsContainer: {
-    marginBottom: theme.spacing.unit * 2,
-  },
-  resetContainer: {
-    padding: theme.spacing.unit * 3,
-  },
-});
+class CreateCompany extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      displaySocialInputs: false,
+      companyName: '',
+      companyId: '',
+      noOfBus: '',
+      contact: '',
+      city: '',
+      companyDetail: '',
+      twitter: '',
+      facebook: '',
+      linkedin: '',
+      youtube: '',
+      instagram: '',
+      errors: {}
+    };
 
-function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-}
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`;
-    case 1:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
-    case 2:
-      return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
-    default:
-      return 'Unknown step';
+  onSubmit(e) {
+    e.preventDefault();
+
+    const profileData = {
+      companyId: this.state.companyId,
+      companyName: this.state.companyName,
+      noOfBus: this.state.noOfBus,
+      contact: this.state.contact,
+      city: this.state.city,
+      companyDetail: this.state.companyDetail,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
+    };
+    debugger
+    // this.props.createProfile(profileData, this.props.history);
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  render() {
+    const { errors, displaySocialInputs } = this.state;
+
+    let socialInputs;
+
+    if (displaySocialInputs) {
+      socialInputs = (
+        <div className="swing-in-top-fwd">
+          <InputGroup
+            placeholder="Twitter Profile URL"
+            name="twitter"
+            icon="fab fa-twitter"
+            value={this.state.twitter}
+            onChange={this.onChange}
+            error={errors.twitter}
+          />
+
+          <InputGroup
+            placeholder="Facebook Page URL"
+            name="facebook"
+            icon="fab fa-facebook"
+            value={this.state.facebook}
+            onChange={this.onChange}
+            error={errors.facebook}
+          />
+
+          <InputGroup
+            placeholder="Linkedin Profile URL"
+            name="linkedin"
+            icon="fab fa-linkedin"
+            value={this.state.linkedin}
+            onChange={this.onChange}
+            error={errors.linkedin}
+          />
+
+          <InputGroup
+            placeholder="YouTube Channel URL"
+            name="youtube"
+            icon="fab fa-youtube"
+            value={this.state.youtube}
+            onChange={this.onChange}
+            error={errors.youtube}
+          />
+
+          <InputGroup
+            placeholder="Instagram Page URL"
+            name="instagram"
+            icon="fab fa-instagram"
+            value={this.state.instagram}
+            onChange={this.onChange}
+            error={errors.instagram}
+          />
+        </div>
+      );
+    }
+
+    // Select options for city
+    const options = [
+      { label: '* Select City', value: 0 },
+      { label: 'Karachi', value: 'Karachi' },
+      { label: 'Lahore', value: 'Lahore' },
+      { label: 'Islamabad', value: 'Islamabad' },
+      { label: 'Rawalpindi', value: 'Rawalpindi' }
+    ];
+
+    return (
+      <div className="create-profile">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8 m-auto fade-in create-company-form-container">
+              <h1 className="display-4 text-center">Create Your Company</h1>
+              <p className="lead text-center">
+                Let's get some information to make your company stand out
+              </p>
+              <small className="d-block pb-3">* = required fields</small>
+              <form onSubmit={this.onSubmit}>
+
+                <TextFieldGroup
+                  placeholder="Company ID"
+                  name="companyId"
+                  value={this.state.companyId}
+                  onChange={this.onChange}
+                  error={errors.companyId}
+                  info="A Unique Company Id for you URL"
+                />
+
+                <TextFieldGroup
+                  placeholder="* Company Name"
+                  name="companyName"
+                  value={this.state.companyName}
+                  onChange={this.onChange}
+                  error={errors.companyName}
+                  info="A Company Name for Your Identification in our System"
+                />
+
+                <SelectListGroup
+                  placeholder="City"
+                  name="city"
+                  value={this.state.city}
+                  onChange={this.onChange}
+                  options={options}
+                  error={errors.city}
+                  info="Give us a city where your head office"
+                />
+
+                <TextFieldGroup
+                  placeholder="Number of Busses"
+                  name="noOfBus"
+                  value={this.state.noOfBus}
+                  onChange={this.onChange}
+                  error={errors.noOfBus}
+                  info="Tell us how many Busses do you have"
+                  type={"number"}
+                />
+
+                <TextFieldGroup
+                  placeholder="Contact Number"
+                  name="contact"
+                  value={this.state.contact}
+                  onChange={this.onChange}
+                  error={errors.contact}
+                  info="Give us your Contact number"
+                />
+                
+                <TextAreaFieldGroup
+                  placeholder="Short Detail"
+                  name="companyDetail"
+                  value={this.state.companyDetail}
+                  onChange={this.onChange}
+                  error={errors.companyDetail}
+                  info="Tell us a little about your Company"
+                />
+
+                <div className="mb-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.setState(prevState => ({
+                        displaySocialInputs: !prevState.displaySocialInputs
+                      }));
+                    }}
+                    className="btn btn-light"
+                  >
+                    Add Social Network Links
+                  </button>
+                  <span className="text-muted">Optional</span>
+                </div>
+                {socialInputs}
+                <input
+                  type="submit"
+                  value="Submit"
+                  className="btn btn-info btn-block mt-4"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
-class CreateCompany extends React.Component {
-state = {
-  activeStep: 0,
-};
-
-handleNext = () => {
-  this.setState(state => ({
-    activeStep: state.activeStep + 1,
-  }));
-};
-
-handleBack = () => {
-  this.setState(state => ({
-    activeStep: state.activeStep - 1,
-  }));
-};
-
-handleReset = () => {
-  this.setState({
-    activeStep: 0,
-  });
-};
-
-render() {
-  const { classes } = this.props;
-  const steps = getSteps();
-  const { activeStep } = this.state;
-
-  return (
-    <div className={classes.root}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((label, index) => {
-          return (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-              <StepContent>
-                <Typography>{getStepContent(index)}</Typography>
-                <div className={classes.actionsContainer}>
-                  <div>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={this.handleBack}
-                      className={classes.button}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                      className={classes.button}
-                    >
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Button>
-                  </div>
-                </div>
-              </StepContent>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&quot;re finished</Typography>
-          <Button onClick={this.handleReset} className={classes.button}>
-            Reset
-          </Button>
-        </Paper>
-      )}
-    </div>
-  );
-}
-}
-
 CreateCompany.propTypes = {
-  classes: PropTypes.object,
+  profile: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CreateCompany);
+const mapStateToProps = state => ({
+  profile: state.profile,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { CreateCompany }
+)(withRouter(CreateCompany));
