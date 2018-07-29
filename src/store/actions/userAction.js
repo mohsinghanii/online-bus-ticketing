@@ -1,6 +1,7 @@
 import {
     SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE,
     SIGNIN, SIGNIN_SUCCESS, SIGNIN_FAILURE,
+    IS_LOGGED_IN_FAILURE, IS_LOGGED_IN_SUCESS
 } from '../constants'
 
 export class userAuthActions {
@@ -47,10 +48,18 @@ export class userAuthActions {
         }
     }
 
-    static isLoggedIn(userBool){
+    static isLoggedInSuccess(payload){
         return {
-            type: "IS_LOGGED_IN",
-            payload:userBool
+            type: IS_LOGGED_IN_SUCESS,
+            payload
+        }
+
+    }
+
+    static isLoggedInFailure(payload){
+        return {
+            type: IS_LOGGED_IN_FAILURE,
+            payload
         }
 
     }
