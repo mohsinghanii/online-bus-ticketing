@@ -47,4 +47,12 @@ export class userAuthActions {
         }
     }
 
+    static isLoggedIn(userBool){
+        return {
+            type: "IS_LOGGED_IN",
+            payload:userBool
+        }
+
+    }
+
 }
