@@ -25,7 +25,6 @@ export default function userAuthReducer(state = initialState, action) {
                 ...state,
                 isError: false,
                 user: action.payload,
-                isAuthenticated: true,
                 isLoading: false,
                 error: null,
             }
@@ -49,7 +48,8 @@ export default function userAuthReducer(state = initialState, action) {
         case SIGNIN_SUCCESS:
             return {
                 ...state,
-                user: action.payload.data,
+                isAuthenticated: true,
+                user: action.payload,
                 isLoading: false,
                 isError: false,
                 error: null
@@ -61,7 +61,7 @@ export default function userAuthReducer(state = initialState, action) {
                 user: null,
                 isLoading: false,
                 isError: true,
-                error: action.payload.error
+                error: action.payload
             }
 
 
