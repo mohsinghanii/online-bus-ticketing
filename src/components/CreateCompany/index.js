@@ -7,7 +7,7 @@ import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import Card from '@material-ui/core/Card';
-// import { createProfile } from '../../actions/profileActions';
+import { CompanyAction } from '../../store/actions/index'
 import './index.css'
 
 class CreateCompany extends Component {
@@ -42,8 +42,8 @@ class CreateCompany extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const profileData = {
-      companyId: this.state.companyId,
+    const newCompany = {
+      company_id: this.state.companyId,
       companyName: this.state.companyName,
       noOfBus: this.state.noOfBus,
       contact: this.state.contact,
@@ -55,8 +55,7 @@ class CreateCompany extends Component {
       youtube: this.state.youtube,
       instagram: this.state.instagram
     };
-    debugger
-    // this.props.createProfile(profileData, this.props.history);
+    this.props.createCompany(newCompany);
   }
 
   onChange(e) {
@@ -220,16 +219,18 @@ class CreateCompany extends Component {
 }
 
 CreateCompany.propTypes = {
-  // profile: PropTypes.object.isRequired,
-  // errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  // profile: state.profile,
-  // errors: state.errors
 });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createCompany: (company) => dispatch(CompanyAction.createCompany(company))
+  }
+}
 
 export default connect(
   mapStateToProps,
-  { CreateCompany }
+  mapDispatchToProps
 )(withRouter(CreateCompany));
