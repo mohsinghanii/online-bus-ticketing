@@ -33,9 +33,12 @@ class CreateCompany extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+  componentWillUpdate(nextProps, nextState) {
+    // if (nextProps.errors) {
+    //   this.setState({ errors: nextProps.errors });
+    // }
+    if (nextProps.createdCompany && !nextProps.createCompanyLoader && this.props.createCompanyLoader) {
+      this.props.history.push('/dashboard')
     }
   }
 
@@ -221,8 +224,12 @@ class CreateCompany extends Component {
 CreateCompany.propTypes = {
 };
 
-const mapStateToProps = state => ({
-});
+const mapStateToProps = state => {
+  const { CompanyReducer: { createdCompany, createCompanyError, createCompanyLoader } } = state
+  return {
+    createdCompany, createCompanyError, createCompanyLoader
+  }
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

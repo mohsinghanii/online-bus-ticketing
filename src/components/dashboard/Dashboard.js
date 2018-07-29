@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import CompanyCard from '../CompanyCard/index'
+import CompanyCard from './CompanyCard'
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import CreateCompany from './../CreateCompany/index'
+import ReactLoading from "react-loading";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { CompanyAction } from '../../store/actions/index'
@@ -42,17 +42,31 @@ class Dashboard extends Component {
               </div>
             </Card>
             <hr />
+            {
+              this.props.getCompaniesLoader ?
+                <div style={{ width: '100px', margin: '0 auto', marginTop: '50px' }}>
+                  <ReactLoading type={'spokes'} width={100} color="#999" />
+                </div>
+                : ''
+            }
             <Grid container spacing={24}>
               {
-                this.props.companies && this.props.companies.map((company, i) => {
+                !this.props.getCompaniesLoader && this.props.companies && this.props.companies.map((company, i) => {
                   return (
-                    <Grid item sm={4} key={i}>
-                      <CompanyCard />
+                    <Grid item sm={3} key={i}>
+                      <CompanyCard
+                        company={company}
+                        history={this.props.history}
+                      />
                     </Grid>
                   )
                 })
               }
             </Grid>
+            {
+              this.props.getCompaniesError && !this.props.getCompaniesLoader && !this.props.companies ?
+                <div>{this.props.getCompaniesError}</div> : ''
+            }
           </div>
         </div>
       </div>
@@ -62,10 +76,10 @@ class Dashboard extends Component {
 
 
 const mapStateToProps = (state) => {
-  const { CompanyReducer: { companies, createCompanyError, createCompanyLoader } } = state
+  const { CompanyReducer: { companies, getCompaniesError, getCompaniesLoader } } = state
 
   return {
-    companies, createCompanyError, createCompanyLoader
+    companies, getCompaniesError, getCompaniesLoader
   };
 };
 

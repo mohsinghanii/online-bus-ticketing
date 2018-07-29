@@ -87,7 +87,7 @@ class Login extends Component {
 Login.propTypes = {
   isError: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.string.isRequired,
-  error : PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
   loginUser: PropTypes.func.isRequired,
 };
 
