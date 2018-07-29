@@ -3,8 +3,12 @@ import CompanyCard from '../CompanyCard/index'
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CreateCompany from './../CreateCompany/index'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { CompanyAction } from '../../store/actions/index'
 import './index.css'
-export default class Dashboard extends Component {
+
+class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,37 +22,60 @@ export default class Dashboard extends Component {
     this.props.history.push('/create-company')
   }
 
+  componentWillMount() {
+    this.props.getCompanies()
+  }
+
   render() {
     return (
-      <CreateCompany />
-      // <div className="container" style={{ paddingBottom: '100px' }}>
-      //   <div className="row">
-      //     <div className="col-md-12">
-      //       <div className="create-company-text">
-      //         Create Company
-      //       </div>
-      //       <Card className="add-company-card">
-      //         <div class='add-company-button-wrapper'>
-      //           <button className="add-company-button" onClick={this.gotoCreateCompany}>
-      //             <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
-      //           </button>
-      //         </div>
-      //       </Card>
-      //       <hr />
-      //       <Grid container spacing={24}>
-      //         {
-      //           this.state.companies.map(() => {
-      //             return (
-      //               <Grid item sm={4}>
-      //                 <CompanyCard />
-      //               </Grid>
-      //             )
-      //           })
-      //         }
-      //       </Grid>
-      //     </div>
-      //   </div>
-      // </div>
+      <div className="container" style={{ paddingBottom: '100px' }}>
+        <div className="row">
+          <div className="col-md-12">
+            <div className="create-company-text">
+              Create Company
+            </div>
+            <Card className="add-company-card">
+              <div className='add-company-button-wrapper'>
+                <button className="add-company-button" onClick={this.gotoCreateCompany}>
+                  <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
+                </button>
+              </div>
+            </Card>
+            <hr />
+            <Grid container spacing={24}>
+              {
+                this.props.companies && this.props.companies.map((company, i) => {
+                  return (
+                    <Grid item sm={4} key={i}>
+                      <CompanyCard />
+                    </Grid>
+                  )
+                })
+              }
+            </Grid>
+          </div>
+        </div>
+      </div>
     );
   }
 }
+
+
+const mapStateToProps = (state) => {
+  const { CompanyReducer: { companies, createCompanyError, createCompanyLoader } } = state
+
+  return {
+    companies, createCompanyError, createCompanyLoader
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCompanies: () => dispatch(CompanyAction.getCompanies())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Dashboard));
