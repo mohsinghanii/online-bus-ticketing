@@ -3,6 +3,7 @@ import AuthEpic from './userEpic';
 
 const rootEpic = combineEpics(
     AuthEpic.signUpEpic,
+    AuthEpic.signInEpic
 );
 
 export default rootEpic;
