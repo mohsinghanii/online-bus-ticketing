@@ -99,7 +99,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (useObj) => dispatch(userAuthActions.signin(userObj))
+    loginUser: (userObj) => dispatch(userAuthActions.signin(userObj))
   }
 }
 
