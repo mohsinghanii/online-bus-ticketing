@@ -17,11 +17,6 @@ class CompanyCard extends React.Component {
       <div>
         <Card className={classes.card} className="fade-in company-card-container">
           <CardHeader
-            action={
-              <IconButton>
-                o
-              </IconButton>
-            }
             style={{ padding: '15px' }}
             title={company.companyName}
             subheader={company.city + ' - ' + company.contact}

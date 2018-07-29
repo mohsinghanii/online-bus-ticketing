@@ -53,7 +53,7 @@ class Dashboard extends Component {
               {
                 !this.props.getCompaniesLoader && this.props.companies && this.props.companies.map((company, i) => {
                   return (
-                    <Grid item sm={4} key={i}>
+                    <Grid item sm={3} key={i}>
                       <CompanyCard company={company}/>
                     </Grid>
                   )
