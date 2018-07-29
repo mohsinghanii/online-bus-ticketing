@@ -21,13 +21,13 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
+    if (this.props.auth && this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
+    if (nextProps.auth && nextProps.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
 
@@ -87,7 +87,7 @@ class Login extends Component {
 Login.propTypes = {
   isError: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.string.isRequired,
-  error : PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
   loginUser: PropTypes.func.isRequired,
 };
 

@@ -34,12 +34,11 @@ class App extends Component {
 
   componentDidMount(){
     if(auth.currentUser){
-      
-      alert(auth.currentUser)
+      // alert(auth.currentUser)
       userAuthActions.isLoggedIn(auth.currentUser)
     }
     else{
-      alert("hello")
+      // alert("hello")
     }
   }
 

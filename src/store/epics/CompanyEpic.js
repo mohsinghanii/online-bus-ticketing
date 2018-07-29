@@ -27,7 +27,7 @@ export default class CompanyEpic {
 
     static getCompanies = (action$) =>
         action$.ofType(GET_COMPANIES)
-            .mergeMap(({ payload }) => {
+            .mergeMap(({ }) => {
                 return firestoreDb.collection("companies").get()
                     .then((querySnapshot) => {
                         let companies = []
