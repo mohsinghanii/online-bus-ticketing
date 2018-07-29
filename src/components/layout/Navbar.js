@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { auth } from './../../firebase/index'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
@@ -8,19 +9,27 @@ import { clearCurrentProfile } from '../../actions/profileActions';
 class Navbar extends Component {
   onLogoutClick(e) {
     e.preventDefault();
-    this.props.clearCurrentProfile();
-    this.props.logoutUser();
+    auth.logOutUser().then(()=>{
+      console.log("successfully Logout")
+    })
+    .catch(()=>{
+      console.log("error in Logout")
+    })
   }
 
   render() {
-    // const { isAuthenticated } = this.props.auth;
-    const isAuthenticated = false
+
+    const { isAuthenticated } = this.props;
     const authLinks = (
       <ul className="navbar-nav ml-auto">
         <li>
           <Link className="nav-link" to="/dashboard">
             Dashboard
           </Link>
+          
+        </li>
+        <li className="nav-link" onClick={this.onLogoutClick.bind(this)}>
+            Logout
         </li>
       </ul>
     );
@@ -71,11 +80,11 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.userAuth
+  isAuthenticated: state.userAuth.isAuthenticated
 });
 
 export default connect(
