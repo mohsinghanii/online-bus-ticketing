@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { auth } from './firebase/index';
+import { auth } from './firebase/firebase';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { userAuthActions } from './store/actions/index'
 
 import PrivateRoute from './components/common/PrivateRoute';
 
@@ -28,28 +29,22 @@ import './App.css';
 import CreateCompany from './components/CreateCompany/index'
 
 // Check for token
-if (auth.getCurrentUser) {
-  console.log(auth.getCurrentUser)
-  // Set auth token header auth
-  // setAuthToken(localStorage.jwtToken);
-  // // Decode token and get user info and expiration
-  // const decoded = jwt_decode(localStorage.jwtToken);
-  // // Set user and isAuthenticated
-  // store.dispatch(setCurrentUser(decoded));
 
-  // // Check for expired token
-  // const currentTime = Date.now() / 1000;
-  // if (decoded.exp < currentTime) {
-  //   // Logout user
-  //   store.dispatch(logoutUser());
-  //   // Clear current Profile
-  //   store.dispatch(clearCurrentProfile());
-  //   // Redirect to login
-  //   window.location.href = '/login';
-  // }
-}
 
 class App extends Component {
+
+  componentDidMount(){
+    if(auth.currentUser){
+      
+      alert(auth.currentUser)
+      userAuthActions.isLoggedIn(auth.currentUser)
+    }
+    else{
+      alert("hello")
+    }
+  }
+
+
   render() {
     return (
       <Provider store={store}>
