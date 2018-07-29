@@ -41,7 +41,7 @@ export default class AuthEpic {
                                 },
                                 {
                                     type: SIGNIN,
-                                    payload : { ...obj }
+                                    payload: { ...obj }
                                 }
 
                             )
@@ -71,11 +71,21 @@ export default class AuthEpic {
                         )
                     })
                     .map((response) => {
-                        const { user: { email, uid, metadata} } = response
-                        return {
-                            type: SIGNIN_SUCCESS,
-                            payload: { email, uid, metadata}
+                        if (response.type === 'SIGNIN_FAILURE') {
+                            return {
+                                type: SIGNIN_FAILURE,
+                                payload: response.payload
+                            }
                         }
+                        else {
+                            const { user: { email, uid, metadata } } = response
+                            return {
+                                type: SIGNIN_SUCCESS,
+                                payload: { email, uid, metadata }
+                            }
+
+                        }
+
                     })
             })
 
