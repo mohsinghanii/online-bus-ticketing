@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CompanyCard from '../CompanyCard/index'
+import CompanyCard from './CompanyCard'
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import ReactLoading from "react-loading";
@@ -54,7 +54,10 @@ class Dashboard extends Component {
                 !this.props.getCompaniesLoader && this.props.companies && this.props.companies.map((company, i) => {
                   return (
                     <Grid item sm={3} key={i}>
-                      <CompanyCard company={company}/>
+                      <CompanyCard
+                        company={company}
+                        history={this.props.history}
+                      />
                     </Grid>
                   )
                 })

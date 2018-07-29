@@ -9,13 +9,21 @@ import './index.css'
 
 
 class CompanyCard extends React.Component {
-  state = { expanded: false };
+  constructor(props) {
+    super(props)
+    this.viewCompany = this.viewCompany.bind(this)
+  }
+
+  viewCompany(company_id) {
+    this.props.history.push(`/company/${company_id}`)
+  }
+
 
   render() {
     const { classes, company } = this.props;
     return (
       <div>
-        <Card className={classes.card} className="fade-in company-card-container">
+        <Card className={classes.card} className="fade-in company-card-container" onClick={()=>this.viewCompany(company.company_id)}>
           <CardHeader
             style={{ padding: '15px' }}
             title={company.companyName}
@@ -39,4 +47,4 @@ CompanyCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles()(CompanyCard);
+export default withStyles({})(CompanyCard);

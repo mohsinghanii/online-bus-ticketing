@@ -1,6 +1,7 @@
 import {
     CREATE_COMPANY,
-    GET_COMPANIES
+    GET_COMPANIES,
+    GET_COMPANY
 } from '../constants';
 import { firestoreDb } from './../../firebase/firebase';
 import { Observable } from 'rxjs/Rx';
@@ -48,6 +49,24 @@ export default class CompanyEpic {
                     })
                     .catch((err) => {
                         return CompanyAction.getCompaniesFailure(`Error in getting Companies! ${err}`)
+                    })
+            })
+
+    static getCompany = (action$) =>
+        action$.ofType(GET_COMPANY)
+            .mergeMap(({ payload }) => {
+                return firestoreDb.collection("companies").doc(payload.company_id).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            // console.log("Document data:", doc.data());
+                            return CompanyAction.getCompanySuccess(doc.data())
+                        } else {
+                            // console.log("No such document!");
+                            return CompanyAction.getCompanyFailure(`No such document!`)
+                        }
+                    }).catch((error) => {
+                        // console.log("Error getting document:", error);
+                        return CompanyAction.getCompanyFailure(`Error in getting Company! ${error}`)
                     })
             })
 

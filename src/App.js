@@ -25,7 +25,8 @@ import AddCategory from './components/auth/AddCategory';
 import 'typeface-roboto'
 import './App.css';
 
-import CreateCompany from './components/CreateCompany/index'
+import CreateCompany from './components/CreateCompany'
+import Company from './components/Company'
 
 // Check for token
 
@@ -60,6 +61,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/create-company" component={CreateCompany} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/company/:cid" component={Company} />
               </Switch>
               <Switch>
                 <PrivateRoute
