@@ -30,19 +30,22 @@ import CreateCompany from './components/CreateCompany/index'
 // Check for token
 
 
+
 class App extends Component {
 
   componentDidMount(){
-    if(auth.currentUser){
-      
-      alert(auth.currentUser)
-      userAuthActions.isLoggedIn(auth.currentUser)
-    }
-    else{
-      alert("hello")
-    }
+    auth.onAuthStateChanged(function (user) {
+      if (user) {
+        const { email, uid, metadata } = user
+        store.dispatch(userAuthActions.isLoggedInSuccess({email, uid, metadata}))
+        // User is signed in.
+      } else {
+        store.dispatch(userAuthActions.isLoggedInFailure())
+        // No user is signed in.
+      }
+    });
   }
-
+  
 
   render() {
     return (
