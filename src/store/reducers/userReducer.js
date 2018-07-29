@@ -1,6 +1,7 @@
 import {
     SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE,
     SIGNIN, SIGNIN_SUCCESS, SIGNIN_FAILURE,
+    IS_LOGGED_IN_SUCESS, IS_LOGGED_IN_FAILURE
 } from '../constants'
 
 const initialState = {
@@ -59,9 +60,24 @@ export default function userAuthReducer(state = initialState, action) {
             return {
                 ...state,
                 user: null,
+                isAuthenticated: false,
                 isLoading: false,
                 isError: true,
                 error: action.payload
+            }
+
+        case IS_LOGGED_IN_SUCESS:
+            return {
+                ...state,
+                isAuthenticated: true,
+                user: action.payload
+            }
+
+        case IS_LOGGED_IN_FAILURE:
+            return {
+                ...state,
+                isAuthenticated: false,
+                user: {}
             }
 
 
