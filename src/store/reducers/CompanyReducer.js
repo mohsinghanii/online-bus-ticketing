@@ -1,11 +1,16 @@
 import {
-    CREATE_COMPANY, CREATE_COMPANY_SUCCESS, CREATE_COMPANY_FAILURE
+    CREATE_COMPANY, CREATE_COMPANY_SUCCESS, CREATE_COMPANY_FAILURE,
+    GET_COMPANIES, GET_COMPANIES_SUCCESS, GET_COMPANIES_FAILURE
 } from '../constants'
 
 const initialState = {
     createdCompany: null,
     createCompanyError: null,
-    createCompanyLoader: false
+    createCompanyLoader: false,
+
+    companies: null,
+    getCompaniesLoader: false,
+    getCompaniesError: null
 }
 
 export default function CompanyReducer(state = initialState, action) {
@@ -30,6 +35,28 @@ export default function CompanyReducer(state = initialState, action) {
                 createdCompany: null,
                 createCompanyError: action.payload,
                 createCompanyLoader: false
+            }
+
+        case GET_COMPANIES:
+            return {
+                ...state,
+                companies: null,
+                getCompaniesLoader: true,
+                getCompaniesError: null
+            }
+        case GET_COMPANIES_SUCCESS:
+            return {
+                ...state,
+                companies: action.payload,
+                getCompaniesLoader: false,
+                getCompaniesError: null
+            }
+        case GET_COMPANIES_FAILURE:
+            return {
+                ...state,
+                companies: null,
+                getCompaniesLoader: false,
+                getCompaniesError: action.payload
             }
 
         default:

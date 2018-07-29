@@ -51,7 +51,7 @@ class CompanyCard extends React.Component {
 
     return (
       <div>
-        <Card className={classes.card}>
+        <Card className={classes.card} className="fade-in">
           <CardHeader
             action={
               <IconButton>

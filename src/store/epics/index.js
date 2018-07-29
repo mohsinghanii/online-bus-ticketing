@@ -7,6 +7,7 @@ const rootEpic = combineEpics(
 
 
     CompanyEpic.createCompany,
+    CompanyEpic.getCompanies,
 );
 
 export default rootEpic;

@@ -3,8 +3,12 @@ import CompanyCard from '../CompanyCard/index'
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CreateCompany from './../CreateCompany/index'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { CompanyAction } from '../../store/actions/index'
 import './index.css'
-export default class Dashboard extends Component {
+
+class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,6 +22,10 @@ export default class Dashboard extends Component {
     this.props.history.push('/create-company')
   }
 
+  componentWillMount() {
+    this.props.getCompanies()
+  }
+
   render() {
     return (
       <div className="container" style={{ paddingBottom: '100px' }}>
@@ -27,7 +35,7 @@ export default class Dashboard extends Component {
               Create Company
             </div>
             <Card className="add-company-card">
-              <div class='add-company-button-wrapper'>
+              <div className='add-company-button-wrapper'>
                 <button className="add-company-button" onClick={this.gotoCreateCompany}>
                   <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
                 </button>
@@ -36,9 +44,9 @@ export default class Dashboard extends Component {
             <hr />
             <Grid container spacing={24}>
               {
-                this.state.companies.map(() => {
+                this.props.companies && this.props.companies.map((company, i) => {
                   return (
-                    <Grid item sm={4}>
+                    <Grid item sm={4} key={i}>
                       <CompanyCard />
                     </Grid>
                   )
@@ -51,3 +59,23 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+
+const mapStateToProps = (state) => {
+  const { CompanyReducer: { companies, createCompanyError, createCompanyLoader } } = state
+
+  return {
+    companies, createCompanyError, createCompanyLoader
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCompanies: () => dispatch(CompanyAction.getCompanies())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Dashboard));
