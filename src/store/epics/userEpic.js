@@ -1,8 +1,8 @@
 import {
     SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-    CREATE_USER_IN_DB_FAILURE, CREATE_USER_IN_DB_SUCCESS,
+    SIGNIN, SIGNIN_FAILURE, SIGNIN_SUCCESS
 } from '../constants';
-import { auth, db} from './../../firebase/';
+import { auth, db } from './../../firebase/';
 import { Observable } from 'rxjs/Rx';
 
 //** Epic Middlewares For Auth **//
@@ -18,26 +18,33 @@ export default class AuthEpic {
                             payload: err.message
                         })
                     })
-                    .map((response)=>{
-                            return {...response , ...payload}
-                    })                    
+                    .map((response) => {
+                        return { ...response, ...payload }
+                    })
             })
-            .switchMap((obj)=>{
-                if(obj.type === SIGNUP_FAILURE){
-                   return Observable.of(
-                       {
-                           type: SIGNUP_FAILURE,
-                           payload: obj.payload
-                       }
-                   )
+            .switchMap((obj) => {
+                if (obj.type === SIGNUP_FAILURE) {
+                    return Observable.of(
+                        {
+                            type: SIGNUP_FAILURE,
+                            payload: obj.payload
+                        }
+                    )
                 }
-                else{
+                else {
                     return Observable.fromPromise(db.doCreateUser(obj.user.uid, obj.email, obj.password))
-                        .map((response)=>{
-                            return {
-                                type: SIGNUP_SUCCESS,
-                                payload: { ...obj  }
-                            }
+                        .switchMap((response) => {
+                            return Observable.of(
+                                {
+                                    type: SIGNUP_SUCCESS,
+                                    payload: { ...obj }
+                                },
+                                {
+                                    type: SIGNIN,
+                                    payload : { ...obj }
+                                }
+
+                            )
                         })
                         .catch((err) => {
                             return Observable.of({
@@ -46,7 +53,30 @@ export default class AuthEpic {
                             })
                         })
                 }
-               
+
+            })
+
+
+    static signInEpic = (action$) =>
+        action$.ofType(SIGNIN)
+            .switchMap(({ payload }) => {
+                const { email, password } = payload
+                return Observable.fromPromise(auth.doSignInWithEmailAndPassword(email, password))
+                    .catch((err) => {
+                        return Observable.of(
+                            {
+                                type: SIGNIN_FAILURE,
+                                payload: err.message
+                            }
+                        )
+                    })
+                    .map((response) => {
+                        const { user: { email, uid, metadata} } = response
+                        return {
+                            type: SIGNIN_SUCCESS,
+                            payload: { email, uid, metadata}
+                        }
+                    })
             })
 
 }
