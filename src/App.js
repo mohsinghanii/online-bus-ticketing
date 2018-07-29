@@ -19,7 +19,6 @@ import AddExperience from './components/add-credentials/AddExperience';
 import AddEducation from './components/add-credentials/AddEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
-import Item from './components/item/Item';
 import NotFound from './components/not-found/NotFound';
 import AddCategory from './components/auth/AddCategory';
 import 'typeface-roboto'
@@ -62,7 +61,6 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/profiles" component={Profiles} />
               <Route exact path="/@:handle" component={Profile} />
-              <Route exact path="/:categoryname-:itemname" component={Item} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>

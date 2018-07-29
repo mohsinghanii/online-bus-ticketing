@@ -220,13 +220,13 @@ class CreateCompany extends Component {
 }
 
 CreateCompany.propTypes = {
-  profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  // profile: PropTypes.object.isRequired,
+  // errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile,
-  errors: state.errors
+  // profile: state.profile,
+  // errors: state.errors
 });
 
 export default connect(
