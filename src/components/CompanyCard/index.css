@@ -1,0 +1,31 @@
+.company-card-container{
+    min-height: 200px;
+    position:relative;
+    padding-right: 10px;
+}
+
+.company-card-content{
+    padding: 0px 15px 10px 15px;
+}
+
+.company-card-footer{
+    position: absolute;
+    width: 100%;
+    background: #eaeaea;
+    bottom: 0px;
+    padding: 5px 15px 0px 15px;
+    margin-bottom: -10px;
+}
+
+.company-card-footer p{
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.company-card-footer p span{
+    padding: 1px 15px 1px 15px;
+    background: #ccc;
+    border-radius: 14px;
+    float: right;
+}
