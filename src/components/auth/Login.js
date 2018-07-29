@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { userAuthActions } from './../../store/actions/userAction';
 import { loginUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import Card from '@material-ui/core/Card';
@@ -84,17 +85,26 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  isError: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.string.isRequired,
+  error : PropTypes.string.isRequired,
   loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.userAuth,
-  errors: state.errors
+  isAuthenticated: state.userAuth.isAuthenticated,
+  isError: state.userAuth.isError,
+  error: state.userAuth.error
 });
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (useObj) => dispatch(userAuthActions.signin(userObj))
+  }
+}
+
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  mapDispatchToProps
 )(Login);
