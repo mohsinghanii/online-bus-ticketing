@@ -20,3 +20,6 @@ export const doPasswordUpdate = (password) =>
 
 export const getCurrentUser = () => 
   auth.currentUser
+
+export const logOutUser = () => 
+  auth.signOut()
