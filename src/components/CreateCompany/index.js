@@ -17,7 +17,6 @@ class CreateCompany extends Component {
       displaySocialInputs: false,
       companyName: '',
       companyId: '',
-      noOfBus: '',
       contact: '',
       city: '',
       companyDetail: '',
@@ -48,7 +47,6 @@ class CreateCompany extends Component {
     const newCompany = {
       company_id: this.state.companyId,
       companyName: this.state.companyName,
-      noOfBus: this.state.noOfBus,
       contact: this.state.contact,
       city: this.state.city,
       companyDetail: this.state.companyDetail,
@@ -165,16 +163,6 @@ class CreateCompany extends Component {
             options={options}
             error={errors.city}
             info="Give us a city where your head office"
-          />
-
-          <TextFieldGroup
-            placeholder="Number of Busses"
-            name="noOfBus"
-            value={this.state.noOfBus}
-            onChange={this.onChange}
-            error={errors.noOfBus}
-            info="Tell us how many Busses do you have"
-            type={"number"}
           />
 
           <TextFieldGroup

@@ -1,4 +1,10 @@
 .company-container{
-    min-height: 500px;
-    padding: 15px;
+    padding: 0px;
+    width: 100%;
+    min-height: 285px;
+}
+
+.company-detail-heading{
+    text-align: left;
+    padding: 15px 0 0 20px;
 }
