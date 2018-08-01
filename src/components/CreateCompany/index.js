@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import Card from '@material-ui/core/Card';
 import { CompanyAction } from '../../store/actions/index'
+import TextField from '../common/TextField'
 import './index.css'
 
 class CreateCompany extends Component {
@@ -71,7 +72,7 @@ class CreateCompany extends Component {
     if (displaySocialInputs) {
       socialInputs = (
         <div className="swing-in-top-fwd">
-          <InputGroup
+          <TextField
             placeholder="Twitter Profile URL"
             name="twitter"
             icon="fab fa-twitter"
@@ -80,7 +81,7 @@ class CreateCompany extends Component {
             error={errors.twitter}
           />
 
-          <InputGroup
+          <TextField
             placeholder="Facebook Page URL"
             name="facebook"
             icon="fab fa-facebook"
@@ -89,7 +90,7 @@ class CreateCompany extends Component {
             error={errors.facebook}
           />
 
-          <InputGroup
+          <TextField
             placeholder="Linkedin Profile URL"
             name="linkedin"
             icon="fab fa-linkedin"
@@ -98,7 +99,7 @@ class CreateCompany extends Component {
             error={errors.linkedin}
           />
 
-          <InputGroup
+          <TextField
             placeholder="YouTube Channel URL"
             name="youtube"
             icon="fab fa-youtube"
@@ -107,7 +108,7 @@ class CreateCompany extends Component {
             error={errors.youtube}
           />
 
-          <InputGroup
+          <TextField
             placeholder="Instagram Page URL"
             name="instagram"
             icon="fab fa-instagram"
@@ -133,26 +134,28 @@ class CreateCompany extends Component {
         <h1 className="display-4 text-center">Create Your Company</h1>
         <p className="lead text-center">
           Let's get some information to make your company stand out
-              </p>
-        <small className="d-block pb-3">* = required fields</small>
+        </p>
+
         <form onSubmit={this.onSubmit}>
 
-          <TextFieldGroup
+          <TextField
             placeholder="Company ID"
             name="companyId"
             value={this.state.companyId}
             onChange={this.onChange}
             error={errors.companyId}
             info="A Unique Company Id for you URL"
+            required
           />
 
-          <TextFieldGroup
-            placeholder="* Company Name"
+          <TextField
+            placeholder="Company Name"
             name="companyName"
             value={this.state.companyName}
             onChange={this.onChange}
             error={errors.companyName}
             info="A Company Name for Your Identification in our System"
+            required
           />
 
           <SelectListGroup
@@ -165,22 +168,25 @@ class CreateCompany extends Component {
             info="Give us a city where your head office"
           />
 
-          <TextFieldGroup
+          <TextField
             placeholder="Contact Number"
             name="contact"
             value={this.state.contact}
             onChange={this.onChange}
             error={errors.contact}
             info="Give us your Contact number"
+            type={'number'}
+            required
           />
 
-          <TextAreaFieldGroup
+          <TextField
             placeholder="Short Detail"
             name="companyDetail"
             value={this.state.companyDetail}
             onChange={this.onChange}
             error={errors.companyDetail}
             info="Tell us a little about your Company"
+            multiline
           />
 
           <div className="mb-3">
