@@ -23,7 +23,7 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-    this.props.getCompanies()
+    this.props.companies ? '' : this.props.getCompanies()
   }
 
   render() {
