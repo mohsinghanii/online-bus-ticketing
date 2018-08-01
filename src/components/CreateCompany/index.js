@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 // import PropTypes from 'prop-types';
-import TextFieldGroup from '../common/TextFieldGroup';
-import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
-import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import Card from '@material-ui/core/Card';
 import { CompanyAction } from '../../store/actions/index'
 import TextField from '../common/TextField'
+import SelectList from '../common/SelectList'
 import './index.css'
 
 class CreateCompany extends Component {
@@ -158,7 +156,7 @@ class CreateCompany extends Component {
             required
           />
 
-          <SelectListGroup
+          <SelectList
             placeholder="City"
             name="city"
             value={this.state.city}
@@ -166,6 +164,7 @@ class CreateCompany extends Component {
             options={options}
             error={errors.city}
             info="Give us a city where your head office"
+            required
           />
 
           <TextField
