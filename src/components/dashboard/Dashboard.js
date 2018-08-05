@@ -56,6 +56,7 @@ class Dashboard extends Component {
                     <Grid item sm={3} key={i}>
                       <CompanyCard
                         company={company}
+                        selectedCompanyAction={this.props.selectedCompanyAction}
                         history={this.props.history}
                       />
                     </Grid>
@@ -85,7 +86,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCompanies: () => dispatch(CompanyAction.getCompanies())
+    getCompanies: () => dispatch(CompanyAction.getCompanies()),
+    selectedCompanyAction: (obj) => dispatch(CompanyAction.selectedCompany(obj))
   }
 }
 
