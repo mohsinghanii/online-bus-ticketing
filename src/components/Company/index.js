@@ -8,11 +8,12 @@ import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import AddIcon from '@material-ui/icons/Add';
+import { Button } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import ReactLoading from "react-loading";
-import { BusFormDialog } from './dialog';
+import BusFormDialog  from './dialog';
 import './index.css'
-import { Button } from '@material-ui/core';
 
 
 const styles = theme => ({
@@ -61,7 +62,12 @@ class Company extends React.Component {
                 {
                     !getCompanyLoader && !getCompanyError && company ?
                         <div className="fade-in">
-                            <h2 className="company-detail-heading">Detail about {company ? company.companyName : ''}</h2>
+                            <div style={companyHeaderStyle}>
+                                <h2 className="company-detail-heading">Detail about {company ? company.companyName : ''}</h2>
+                                <Button onClick={this.handleClickOpen} variant="fab" mini color="secondary" aria-label="Add" className={classes.button}>
+                                    <AddIcon />
+                                </Button>
+                            </div>
                             <Table className={classes.table}>
                                 <TableHead>
                                     <TableRow>
@@ -82,7 +88,6 @@ class Company extends React.Component {
                                     </TableRow>
                                 </TableHead>
                             </Table>
-                            <Button onClick={this.handleClickOpen}>Open</Button>
                         </div>
                         : ''
                 }
@@ -112,7 +117,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getCompany: (company_id) => dispatch(CompanyAction.getCompany(company_id))
+        getCompany: (company_id) => dispatch(CompanyAction.getCompany(company_id)),
     }
 }
 
@@ -120,3 +125,9 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(withRouter(withStyles(styles)(Company)));
+
+const companyHeaderStyle={
+    display:"flex",
+    justifyContent:"space-between",
+    alignItems:'center'
+}
