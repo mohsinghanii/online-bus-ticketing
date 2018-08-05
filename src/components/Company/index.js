@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { CompanyAction } from '../../store/actions/index'
+import { CompanyAction } from '../../store/actions/index';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ReactLoading from "react-loading";
+import { BusFormDialog } from './dialog';
 import './index.css'
+import { Button } from '@material-ui/core';
 
 
 const styles = theme => ({
@@ -25,19 +27,37 @@ const styles = theme => ({
 });
 
 class Company extends React.Component {
-    //   constructor(props) {
-    //     super(props)
-    //   }
+      constructor(props) {
+        super(props)
+        this.state = {
+            open: false
+        }
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+      }
 
     componentWillMount() {
         let company_id = this.props.match.params.cid
         this.props.getCompany({ company_id })
     }
 
+    handleClickOpen = () => {
+        this.setState({ open: true });
+    };
+
+    handleClose = () => {
+        this.setState({ open: false });
+    };
+    
+
     render() {
         const { classes, company, getCompanyLoader, getCompanyError } = this.props;
         return (
             <Paper className={`fade-in company-container ${classes.root}`}>
+              <BusFormDialog 
+                open={this.state.open}
+                handleClose={this.handleClose}
+               />
                 {
                     !getCompanyLoader && !getCompanyError && company ?
                         <div className="fade-in">
@@ -62,6 +82,7 @@ class Company extends React.Component {
                                     </TableRow>
                                 </TableHead>
                             </Table>
+                            <Button onClick={this.handleClickOpen}>Open</Button>
                         </div>
                         : ''
                 }
