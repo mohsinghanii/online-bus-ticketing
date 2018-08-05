@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
 import './index.css'
 
 
@@ -14,8 +12,10 @@ class CompanyCard extends React.Component {
     this.viewCompany = this.viewCompany.bind(this)
   }
 
-  viewCompany(company_id) {
-    this.props.history.push(`/company/${company_id}`)
+  viewCompany(company) {
+    const { history, selectedCompanyAction } = this.props
+    history.push(`/company/${company.company_id}`)
+    selectedCompanyAction(company)
   }
 
 
@@ -23,7 +23,7 @@ class CompanyCard extends React.Component {
     const { classes, company } = this.props;
     return (
       <div>
-        <Card className={classes.card} className="fade-in company-card-container" onClick={()=>this.viewCompany(company.company_id)}>
+        <Card className={classes.card} className="fade-in company-card-container" onClick={()=>this.viewCompany(company)}>
           <CardHeader
             style={{ padding: '15px' }}
             title={company.companyName}
