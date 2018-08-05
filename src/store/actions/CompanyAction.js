@@ -1,7 +1,8 @@
 import {
     CREATE_COMPANY, CREATE_COMPANY_SUCCESS, CREATE_COMPANY_FAILURE,
     GET_COMPANIES, GET_COMPANIES_SUCCESS, GET_COMPANIES_FAILURE,
-    GET_COMPANY, GET_COMPANY_SUCCESS, GET_COMPANY_FAILURE
+    GET_COMPANY, GET_COMPANY_SUCCESS, GET_COMPANY_FAILURE,
+    SELECTED_COMPANY
 } from './../constants'
 
 export class CompanyAction {
@@ -67,6 +68,13 @@ export class CompanyAction {
         return {
             type: GET_COMPANY_FAILURE,
             error: error
+        }
+    }
+
+    static selectedCompany(payload){
+        return {
+            type: SELECTED_COMPANY,
+            payload
         }
     }
 }
