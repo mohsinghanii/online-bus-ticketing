@@ -23,8 +23,7 @@ class BusFormDialog extends React.Component {
             bus_name:'',
             bus_number:'',
             isLoading: false,
-            isError: false,
-            error:null
+            createdBus: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,12 +38,17 @@ class BusFormDialog extends React.Component {
             return ({isLoading: nextProps.isLoading})
         }
 
-        if(nextProps.isError !== prevState.isError){
-            return ({isError: nextProps.isError, error: nextProps.error})
+        else{
+            return null
         }
-
     }
 
+    componentDidUpdate(prevProps, prevState){
+       if(prevProps.createdBus !== this.props.createdBus){
+           this.props.handleClose()
+       }
+    }
+   
     handleChange(event){
         this.setState({
             [event.target.id]: event.target.value
@@ -99,10 +103,16 @@ class BusFormDialog extends React.Component {
                         />
                     </DialogContent>
                     {
-                        (this.state.isLoading) ?
+                        (this.props.isLoading) ?
                             <CircularProgress  thickness={7} />
                          :
                          ""
+                    }
+                    {
+                        (this.props.isError)?
+                           <p style={{textAlign: 'center', color:"red"}}>{this.props.error}</p>
+                           :
+                           ''
                     }
                     <DialogActions>
                         <Button onClick={this.props.handleClose} color="primary">
@@ -122,12 +132,11 @@ BusFormDialog.propTypes = {
     selectedComapany: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isError: PropTypes.bool.isRequired,
-    createBus: PropTypes.object.isRequired,
-    error: PropTypes.object.isRequired
+    createdBus: PropTypes.string.isRequired,
+    error: PropTypes.string.isRequired
   };
 
 const mapStateToProps = (state) => {
-    console.log(state)
     const {
         CompanyReducer,
         BusReducer
