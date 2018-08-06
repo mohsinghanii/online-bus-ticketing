@@ -4,10 +4,10 @@ import {
 } from '../constants'
 
 const initialState = {
-    createdBus: null,
+    createdBus: {},
     isLoading: false,
     isError: false,
-    error: null
+    error: ''
 }
 
 export default function BusReducer(state = initialState, action) {
@@ -15,9 +15,10 @@ export default function BusReducer(state = initialState, action) {
         case CREATE_BUS:
             return {
                 ...state,
+                createdBus: {},
                 isLoading: true,
                 isError: false,
-                error: null
+                error: ''
             }
         case CREATE_BUS_SUCCESS:
             return {
@@ -25,7 +26,7 @@ export default function BusReducer(state = initialState, action) {
                 isError: false,
                 createdBus: action.payload,
                 isLoading: false,
-                error: null,
+                error: '',
             }
         case CREATE_BUS_FAILURE:
             return {
@@ -33,7 +34,7 @@ export default function BusReducer(state = initialState, action) {
                 isLoading: false,
                 isAuthenticated: false,
                 isError: true,
-                createdBus: null,
+                createdBus: {},
                 error: action.payload,
             }
 
