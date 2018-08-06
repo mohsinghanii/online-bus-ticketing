@@ -15,15 +15,15 @@ export const onceGetUsers = () =>
 // bus query
 export const doCreateBusInCompany = (bid, cid, bus_name, date_created) =>
   new Promise((res, rej) => {
-   let docRef = firestoreDb.collection("Buses").doc(bid)
-     docRef
+   let busRef = firestoreDb.collection("Buses").doc(bid);
+     busRef
      .get()
      .then((doc) => {
           if(doc.exists){
             rej(`bus with id ${bid} already exist`)
           }
           else{
-            docRef.set({
+            busRef.set({
               bid,
               cid,
               bus_name,
