@@ -15,26 +15,24 @@ export const onceGetUsers = () =>
 // bus query
 export const doCreateBusInCompany = (bid, cid, bus_name, date_created) =>
   new Promise((res, rej) => {
-    const ref = firestoreDb.collection("Buses").doc(bid)
-    ref.set({
-      bid,
-      cid,
-      bus_name,
-      date_created
-    })
-      .then(() => {
-        ref.get().then((doc) => {
-          alert(doc.data())
-          res(doc.data())
-        })
-          .catch((err) => {
-            alert(err)
-            rej(err)
-          })
+   let docRef = firestoreDb.collection("Buses").doc(bid)
+     docRef
+     .get()
+     .then((doc) => {
+          if(doc.exists){
+            rej(`bus with id ${bid} already exist`)
+          }
+          else{
+            docRef.set({
+              bid,
+              cid,
+              bus_name,
+              date_created
+            })
+            res(bid)
+          }
       })
       .catch((err) => {
-        alert(err)
-        rej(err)
+        rej(`error in creating doc with id ${bid}` + err)
       })
-
-  })
+    })
