@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AddCityDialog from './dialog';
 import SelectListGroup from '../common/SelectListGroup';
 import Card from '@material-ui/core/Card';
-import { CompanyAction } from '../../store/actions/index'
+import { CompanyAction, BusAction } from '../../store/actions/index'
 import TextField from '../common/TextField'
 import SelectList from '../common/SelectList'
 import AddIcon from '@material-ui/icons/Add';
@@ -34,6 +34,10 @@ class CreateRoute extends Component {
     if (nextProps.createdCompany && !nextProps.createCompanyLoader && this.props.createCompanyLoader) {
       this.props.history.push('/dashboard')
     }
+  }
+
+  componentDidMount() {
+    this.props.getCitiesAction()
   }
 
   handleClickOpen = () => {
@@ -149,7 +153,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createCompany: (company) => dispatch(CompanyAction.createCompany(company))
+    createCompany: (company) => dispatch(CompanyAction.createCompany(company)),
+    getCitiesAction: () => dispatch(BusAction.getCities())
   }
 }
 

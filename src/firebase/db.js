@@ -41,7 +41,7 @@ export const doCreateBusInCompany = (bid, cid, bus_name, date_created, no_of_sea
 // add city query
 export const doAddCity = (city, date_created) =>
   new Promise((res, rej) => {
-    let CitiesRef = firestoreDb.collection("Cities").doc(city);
+    let CitiesRef = firestoreDb.collection("cities").doc(city);
     CitiesRef
       .get()
       .then((doc) => {
@@ -59,4 +59,14 @@ export const doAddCity = (city, date_created) =>
       .catch((err) => {
         rej(`error in creating doc with ${city}` + err)
       })
+  })
+// get city query
+export const getCities = () =>
+  new Promise((res, rej) => {
+    let CitiesRef = firestoreDb.collection("cities").onSnapshot((snapshot) => {
+      console.log("Current data: ", snapshot);
+        res(snapshot)
+    }, (error) => {
+      rej(error)
+    });
   })
