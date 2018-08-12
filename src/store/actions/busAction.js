@@ -1,5 +1,6 @@
 import {
     CREATE_BUS, CREATE_BUS_SUCCESS, CREATE_BUS_FAILURE,
+    ADD_CITY, ADD_CITY_SUCCESS, ADD_CITY_FAILURE
 } from './../constants'
 
 export class BusAction {
@@ -20,6 +21,27 @@ export class BusAction {
     static createBusFailure(payload) {
         return {
             type: CREATE_BUS_FAILURE,
+            payload
+        }
+    }
+
+    static addCity(payload) {
+        return {
+            type: ADD_CITY,
+            payload
+        }
+    }
+
+    static addCitySuccess(payload) {
+        return {
+            type: ADD_CITY_SUCCESS,
+            payload
+        }
+    }
+
+    static addCityFailure(payload) {
+        return {
+            type: ADD_CITY_FAILURE,
             payload
         }
     }

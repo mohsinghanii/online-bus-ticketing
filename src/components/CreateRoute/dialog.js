@@ -14,17 +14,15 @@ import { BusAction } from '../../store/actions/index';
 import { connect } from 'react-redux';
 
 
-class BusFormDialog extends React.Component {
+class AddCityDialog extends React.Component {
 
     constructor() {
         super()
         this.state = {
             open: false,
-            bus_name: '',
-            bus_number: '',
-            no_of_seats: '',
-            isLoading: false,
-            createdBus: ''
+            city: '',
+            createCityLoader: false,
+            createdCity: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,8 +33,8 @@ class BusFormDialog extends React.Component {
             return ({ open: nextProps.open }) // <- this is setState equivalent
         }
 
-        if (nextProps.isLoading !== prevState.isLoading) {
-            return ({ isLoading: nextProps.isLoading })
+        if (nextProps.createCityLoader !== prevState.createCityLoader) {
+            return ({ createCityLoader: nextProps.createCityLoader })
         }
 
         else {
@@ -45,7 +43,7 @@ class BusFormDialog extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.createdBus !== this.props.createdBus) {
+        if (prevProps.createdCity !== this.props.createdCity) {
             this.props.handleClose()
         }
     }
@@ -57,13 +55,9 @@ class BusFormDialog extends React.Component {
     }
 
     handleSubmit() {
-        const { bus_number, bus_name, no_of_seats } = this.state;
-        const { selectedComapany } = this.props;
-        this.props.addBusInCompanyAction({
-            bid: bus_number,
-            cid: selectedComapany.company_id,
-            bus_name,
-            no_of_seats,
+        const { city } = this.state;
+        this.props.addCityAction({
+            city,
             date_created: new Date()
         })
     }
@@ -82,43 +76,24 @@ class BusFormDialog extends React.Component {
                             Please correctly add bus name and number
                     </DialogContentText>
                         <TextField
-                            autoFocus
                             margin="dense"
-                            id="bus_name"
-                            label="Bus Name"
-                            value={this.state.bus_name}
-                            type="text"
-                            onChange={this.handleChange}
-                            fullWidth
-                        />
-                        <TextField
-                            margin="dense"
-                            id="bus_number"
-                            label="Bus Number"
-                            value={this.state.bus_number}
-                            type="text"
-                            onChange={this.handleChange}
-                            fullWidth
-                        />
-                        <TextField
-                            margin="dense"
-                            id="no_of_seats"
-                            label="Number of Seats"
-                            value={this.state.no_of_seats}
+                            id="city"
+                            label="Add City"
+                            value={this.state.city}
                             type="text"
                             onChange={this.handleChange}
                             fullWidth
                         />
                     </DialogContent>
                     {
-                        (this.props.isLoading) ?
+                        (this.props.createCityLoader) ?
                             <CircularProgress thickness={7} />
                             :
                             ""
                     }
                     {
-                        (this.props.isError) ?
-                            <p style={{ textAlign: 'center', color: "red" }}>{this.props.error}</p>
+                        (this.props.createCityError) ?
+                            <p style={{ textAlign: 'center', color: "red" }}>{this.props.createCityError}</p>
                             :
                             ''
                     }
@@ -136,32 +111,27 @@ class BusFormDialog extends React.Component {
     }
 }
 
-BusFormDialog.propTypes = {
-    selectedComapany: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isError: PropTypes.bool.isRequired,
-    createdBus: PropTypes.string.isRequired,
-    error: PropTypes.string.isRequired
+AddCityDialog.propTypes = {
+    createCityLoader: PropTypes.bool.isRequired,
+    createCityError: PropTypes.bool.isRequired,
+    createdCity: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
     const {
-        CompanyReducer,
         BusReducer
     } = state
     return {
-        isLoading: BusReducer.isLoading,
-        isError: BusReducer.isError,
-        createdBus: BusReducer.createdBus, // will not need in future
-        error: BusReducer.error,
-        selectedComapany: CompanyReducer.selectedCompany
+        createCityLoader: BusReducer.createCityLoader,
+        createCityError: BusReducer.createCityError,
+        createdCity: BusReducer.createdCity, // will not need in future
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addBusInCompanyAction: (obj) => dispatch(BusAction.createBus(obj))
+        addCityAction: (obj) => dispatch(BusAction.addCity(obj))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BusFormDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(AddCityDialog)

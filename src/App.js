@@ -26,6 +26,7 @@ import 'typeface-roboto'
 import './App.css';
 
 import CreateCompany from './components/CreateCompany'
+import CreateRoute from './components/CreateRoute'
 import Company from './components/Company'
 
 // Check for token
@@ -65,6 +66,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/create-company" component={CreateCompany} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/create-route" component={CreateRoute} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/company/:cid" component={Company} />
