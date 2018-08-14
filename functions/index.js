@@ -23,15 +23,23 @@ exports.addUserProperty = functions.firestore
   .onCreate(snap => {
     // Get an object representing the document
     // e.g. {'name': 'Marie', 'age': 66}
-    console.log("hello",snap.data())
+    let busCreated = snap.data();
 
-    const newValue = snap.data();
+    let busRef =  db.collection('buses').where("cid" , "==", busCreated.cid);
+     
+    busRef.get().then((result)=>{
+       if(result.empty){
+           console.log("No Result Found");
+       }
+       else{
+        result.forEach((doc)=>{
+          console.log("DOCUMENT DATA" , doc.data());
+        })
+       }
 
-    db.collection('companies').doc(newValue.cid).set({
-        bus_name:newValue.bid
     })
-
-    // access a particular field as you would any JS property
-    const name = newValue.name;
+    .catch((err)=>{
+        console.log("ERROR", err)
+    })
 
 });
