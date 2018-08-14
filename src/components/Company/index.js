@@ -86,6 +86,10 @@ class Company extends React.Component {
                                         <TableCell style={{ fontWeight: 'bold' }}>ABOUT</TableCell>
                                         <TableCell>{company ? company.companyDetail : ''}</TableCell>
                                     </TableRow>
+                                    <TableRow>
+                                        <TableCell style={{ fontWeight: 'bold' }}>No of Buses</TableCell>
+                                        <TableCell>{company ? company.buses : ''}</TableCell>
+                                    </TableRow>
                                 </TableHead>
                             </Table>
                         </div>

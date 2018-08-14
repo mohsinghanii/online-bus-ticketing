@@ -48,6 +48,7 @@ class CreateCompany extends Component {
       companyName: this.state.companyName,
       contact: this.state.contact,
       city: this.state.city,
+      buses: 0,
       companyDetail: this.state.companyDetail,
       twitter: this.state.twitter,
       facebook: this.state.facebook,
