@@ -9,18 +9,10 @@ import { CompanyAction } from '../../store/actions/index'
 import './index.css'
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      companies: [0, 1, 2, 3, 4, 5, 6]
-    }
-
-    this.gotoCreateCompany = this.gotoCreateCompany.bind(this)
-  }
-
-  gotoCreateCompany() {
-    this.props.history.push('/create-company')
-  }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {}
+  // }
 
   componentWillMount() {
     this.props.companies ? '' : this.props.getCompanies()
@@ -31,16 +23,32 @@ class Dashboard extends Component {
       <div className="container" style={{ paddingBottom: '100px' }}>
         <div className="row">
           <div className="col-md-12">
-            <div className="create-company-text">
-              Create Company
+            <div className="row">
+              <div className="col-md-2">
+                <div className="create-company-text">
+                  Create Company
             </div>
-            <Card className="add-company-card">
-              <div className='add-company-button-wrapper'>
-                <button className="add-company-button" onClick={this.gotoCreateCompany}>
-                  <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
-                </button>
+                <Card className="add-company-card">
+                  <div className='add-company-button-wrapper'>
+                    <button className="add-company-button" onClick={() => { this.props.history.push('/create-company') }}>
+                      <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
+                    </button>
+                  </div>
+                </Card>
               </div>
-            </Card>
+              <div className="col-md-2">
+                <div className="create-company-text">
+                  Create Route
+            </div>
+                <Card className="add-company-card">
+                  <div className='add-company-button-wrapper'>
+                    <button className="add-company-button" onClick={() => { this.props.history.push('/create-route') }}>
+                      <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
+                    </button>
+                  </div>
+                </Card>
+              </div>
+            </div>
             <hr />
             {
               this.props.getCompaniesLoader ?

@@ -12,6 +12,8 @@ const rootEpic = combineEpics(
     CompanyEpic.getCompany,
     //Buses
     BusEpic.createBus,
+    BusEpic.addCity,
+    BusEpic.getCities,
 
 );
 
