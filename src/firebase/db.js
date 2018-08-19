@@ -70,3 +70,22 @@ export const getCities = () =>
       rej(error)
     });
   })
+
+export const getBuses = (cid) =>
+  new Promise((res, rej) => {
+    let busesRef = firestoreDb.collection("Buses");
+    busesRef.where( "cid", "==", cid)
+      .get()
+      .then((querySnapshot) => {
+
+        let arr = [];
+        querySnapshot.forEach((doc) => {
+          arr.push(doc.data())
+        })
+        debugger
+        res(arr);
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
+      })
+  })
