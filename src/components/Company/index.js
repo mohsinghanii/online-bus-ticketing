@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { CompanyAction } from '../../store/actions/index';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
@@ -89,6 +89,16 @@ class Company extends React.Component {
                                     <TableRow>
                                         <TableCell style={{ fontWeight: 'bold' }}>No of Buses</TableCell>
                                         <TableCell>{company ? company.buses : ''}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell style={{ fontWeight: 'bold' }}>See All Buses</TableCell>
+                                        <TableCell>
+                                        {
+                                                company.buses && company.buses > 0 ?
+                                                <Link to={`/company/${this.props.match.params.cid}/buses`}> View All Buses </Link>:
+                                                'please create a bus'
+                                        }
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
                             </Table>
