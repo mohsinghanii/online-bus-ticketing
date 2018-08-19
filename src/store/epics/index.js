@@ -14,6 +14,7 @@ const rootEpic = combineEpics(
     BusEpic.createBus,
     BusEpic.addCity,
     BusEpic.getCities,
+    BusEpic.getBuses
 
 );
 
