@@ -1,9 +1,10 @@
 import {
     ADD_CITY,
     CREATE_BUS,
-    GET_CITIES
+    GET_CITIES,
+    GET_BUSES
 } from '../constants';
-import { doCreateBusInCompany, doAddCity, getCities } from './../../firebase/db';
+import { doCreateBusInCompany, doAddCity, getCities, getBuses } from './../../firebase/db';
 import { Observable } from 'rxjs/Rx';
 import { BusAction } from './../actions/index'
 
@@ -55,6 +56,23 @@ export default class BusEpic {
                     .catch((err) => {
                         return Observable.of(
                             BusAction.getCitiesFailure(err)
+                        )
+                    })
+            })
+
+    static getBuses = (action$) =>
+        action$.ofType(GET_BUSES)
+            .switchMap(({ payload }) => {
+                debugger
+                return Observable.fromPromise(getBuses(payload))
+                    .switchMap((response) => {
+                        return Observable.of(
+                            BusAction.getBusesSuccess(response)
+                        )
+                    })
+                    .catch((err) => {
+                        return Observable.of(
+                            BusAction.getBusesFailure(err)
                         )
                     })
             })
