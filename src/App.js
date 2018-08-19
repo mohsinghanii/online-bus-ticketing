@@ -14,6 +14,7 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
+import Buses from './components/Buses/index';
 import CreateProfile from './components/create-profile/CreateProfile';
 import EditProfile from './components/edit-profile/EditProfile';
 import AddExperience from './components/add-credentials/AddExperience';
@@ -72,6 +73,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/company/:cid" component={Company} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/company/:cid/buses" component={Buses} />
               </Switch>
               <Switch>
                 <PrivateRoute
