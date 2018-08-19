@@ -1,0 +1,43 @@
+
+        
+/* bus card css */
+
+.bus-card-container{
+    min-height: 200px;
+    position:relative;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.bus-card-container:hover{
+    transition: 0.8s;
+    box-shadow: 0px 0px 10px 0px #777;
+}
+
+.bus-card-content{
+    padding: 0px 15px 10px 15px;
+    font-size: 13px;
+    color: #777;
+}
+
+.bus-card-footer{
+    position: absolute;
+    width: 100%;
+    background: #eaeaea;
+    bottom: 0px;
+    padding: 5px 15px 0px 15px;
+    margin-bottom: -10px;
+}
+
+.bus-card-footer p{
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.bus-card-footer p span{
+    padding: 1px 15px 1px 15px;
+    background: #ccc;
+    border-radius: 14px;
+    float: right;
+}
