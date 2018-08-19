@@ -2,7 +2,9 @@ import {
     CREATE_BUS, CREATE_BUS_FAILURE, CREATE_BUS_SUCCESS,
     ADD_CITY, ADD_CITY_SUCCESS, ADD_CITY_FAILURE,
     GET_CITIES, GET_CITIES_SUCCESS, GET_CITIES_FAILURE,
+    GET_BUSES, GET_BUSES_FAILURE, GET_BUSES_SUCCESS
 } from '../constants'
+import { stat } from 'fs';
 
 const initialState = {
     createdBus: {},
@@ -16,7 +18,11 @@ const initialState = {
 
     cities: null,
     getCitiesLoader: false,
-    getCitiesError: null
+    getCitiesError: null,
+
+    getBusLoader: false,
+    getBuses:[],
+    getBusesError: { isError: false, error: null }
 }
 
 export default function BusReducer(state = initialState, action) {
@@ -89,6 +95,28 @@ export default function BusReducer(state = initialState, action) {
                 cities: null,
                 getCitiesLoader: false,
                 getCitiesError: action.payload
+            }
+
+        case GET_BUSES:
+            return {
+                ...state,
+                getBusLoader: true,
+                getBuses: {},
+                getBusesError: { isError: false, error: "" }
+            }
+
+        case GET_BUSES_SUCCESS:
+            return {
+                ...state,
+                getBusLoader: false,
+                getBuses: action.payload
+            }
+
+        case GET_BUSES_FAILURE:
+            return {
+                ...state,
+                getBusLoader: false,
+                getBusesError: { isError: true, error: action.payload }
             }
 
         default:
