@@ -34,7 +34,8 @@ export default class BusEpic {
                 return Observable.fromPromise(doAddCity(city, date_created))
                     .switchMap((response) => {
                         return Observable.of(
-                            BusAction.addCitySuccess(response)
+                            BusAction.addCitySuccess(response),
+                            BusAction.getCities()
                         )
                     })
                     .catch((err) => {

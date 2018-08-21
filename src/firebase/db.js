@@ -68,7 +68,8 @@ export const getCities = () =>
       .then((querySnapshot) => {
         let arr = [];
         querySnapshot.forEach((doc) => {
-          arr.push(doc.data())
+          let option = { label: doc.data().city, value: doc.data().city, date_created: doc.data().date_created }
+          arr.push(option)
         })
         res(arr);
       })
@@ -80,7 +81,7 @@ export const getCities = () =>
 export const getBuses = (cid) =>
   new Promise((res, rej) => {
     let busesRef = firestoreDb.collection("Buses");
-    busesRef.where( "cid", "==", cid)
+    busesRef.where("cid", "==", cid)
       .get()
       .then((querySnapshot) => {
         let arr = [];
