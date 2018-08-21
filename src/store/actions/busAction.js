@@ -4,6 +4,7 @@ import {
     GET_CITIES, GET_CITIES_SUCCESS, GET_CITIES_FAILURE,
     GET_BUSES, GET_BUSES_FAILURE, GET_BUSES_SUCCESS,
     CREATE_ROUTE, CREATE_ROUTE_FAILURE, CREATE_ROUTE_SUCCESS,
+    GET_ROUTES, GET_ROUTES_FAILURE, GET_ROUTES_SUCCESS,
 } from './../constants'
 
 export class BusAction {
@@ -108,6 +109,27 @@ export class BusAction {
     static getBusesFailure(payload) {
         return {
             type: GET_BUSES_FAILURE,
+            payload
+        }
+    }
+    
+    static getRoutes(payload) {
+        return {
+            type: GET_ROUTES,
+            payload
+        }
+    }
+
+    static getRoutesSuccess(payload) {
+        return {
+            type: GET_ROUTES_SUCCESS,
+            payload
+        }
+    }
+
+    static getRoutesFailure(payload) {
+        return {
+            type: GET_ROUTES_FAILURE,
             payload
         }
     }

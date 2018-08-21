@@ -61,9 +61,27 @@ export const doAddCity = (city, date_created) =>
       })
   })
 
+// get city query
+export const getCities = () =>
+  new Promise((res, rej) => {
+    let CitiesRef = firestoreDb.collection("Cities");
+    CitiesRef.get()
+      .then((querySnapshot) => {
+        let arr = [];
+        querySnapshot.forEach((doc) => {
+          let option = { label: doc.data().city, value: doc.data().city, date_created: doc.data().date_created }
+          arr.push(option)
+        })
+        res(arr);
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
+      })
+  })
+
 export const createRoute = (route_id, routeTitle, stops, aboutRoute) =>
   new Promise((res, rej) => {
-    let routeObj = { route_id, routeTitle, aboutRoute, stops }
+    let routeObj = { route_id, title: routeTitle, aboutRoute, stops }
     let CitiesRef = firestoreDb.collection("Routes").doc(route_id);
     CitiesRef
       .get()
@@ -81,16 +99,14 @@ export const createRoute = (route_id, routeTitle, stops, aboutRoute) =>
       })
   })
 
-// get city query
-export const getCities = () =>
+export const getRoutes = () =>
   new Promise((res, rej) => {
-    let CitiesRef = firestoreDb.collection("Cities");
+    let CitiesRef = firestoreDb.collection("Routes");
     CitiesRef.get()
       .then((querySnapshot) => {
         let arr = [];
         querySnapshot.forEach((doc) => {
-          let option = { label: doc.data().city, value: doc.data().city, date_created: doc.data().date_created }
-          arr.push(option)
+          arr.push(doc.data())
         })
         res(arr);
       })

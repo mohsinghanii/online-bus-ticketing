@@ -4,6 +4,7 @@ import {
     GET_CITIES, GET_CITIES_SUCCESS, GET_CITIES_FAILURE,
     GET_BUSES, GET_BUSES_FAILURE, GET_BUSES_SUCCESS,
     CREATE_ROUTE, CREATE_ROUTE_FAILURE, CREATE_ROUTE_SUCCESS,
+    GET_ROUTES, GET_ROUTES_FAILURE, GET_ROUTES_SUCCESS,
 } from '../constants'
 // import { state } from 'fs';
 
@@ -28,6 +29,10 @@ const initialState = {
     createdRoute: null,
     createRouteError: null,
     createRouteLoader: false,
+
+    routes: null,
+    getRoutesLoader: false,
+    getRoutesError: null,
 }
 
 export default function BusReducer(state = initialState, action) {
@@ -146,6 +151,30 @@ export default function BusReducer(state = initialState, action) {
                 createdRoute: null,
                 createRouteError: action.payload,
                 createRouteLoader: false
+            }
+
+        case GET_ROUTES:
+            return {
+                ...state,
+                routes: null,
+                getRoutesLoader: true,
+                getRoutesError: null,
+            }
+
+        case GET_ROUTES_SUCCESS:
+            return {
+                ...state,
+                routes: action.payload,
+                getRoutesLoader: false,
+                getRoutesError: null,
+            }
+
+        case GET_ROUTES_FAILURE:
+            return {
+                ...state,
+                routes: null,
+                getRoutesLoader: false,
+                getRoutesError: action.payload,
             }
 
         default:
