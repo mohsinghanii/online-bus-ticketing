@@ -41,7 +41,7 @@ export const doCreateBusInCompany = (bid, cid, bus_name, date_created, no_of_sea
 // add city query
 export const doAddCity = (city, date_created) =>
   new Promise((res, rej) => {
-    let CitiesRef = firestoreDb.collection("cities").doc(city);
+    let CitiesRef = firestoreDb.collection("Cities").doc(city);
     CitiesRef
       .get()
       .then((doc) => {
@@ -60,10 +60,31 @@ export const doAddCity = (city, date_created) =>
         rej(`error in creating doc with ${city}` + err)
       })
   })
+
+export const createRoute = (route_id, routeTitle, stops, aboutRoute) =>
+  new Promise((res, rej) => {
+    let routeObj = { route_id, routeTitle, aboutRoute, stops }
+    let CitiesRef = firestoreDb.collection("Routes").doc(route_id);
+    CitiesRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          rej(`This ${route_id} already exist`)
+        }
+        else {
+          CitiesRef.set(routeObj)
+          res(routeObj)
+        }
+      })
+      .catch((err) => {
+        rej(`error in creating doc with ${route_id}` + err)
+      })
+  })
+
 // get city query
 export const getCities = () =>
   new Promise((res, rej) => {
-    let CitiesRef = firestoreDb.collection("cities");
+    let CitiesRef = firestoreDb.collection("Cities");
     CitiesRef.get()
       .then((querySnapshot) => {
         let arr = [];

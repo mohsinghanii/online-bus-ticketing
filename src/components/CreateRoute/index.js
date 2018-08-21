@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AddCityDialog from './dialog';
 // import SelectListGroup from '../common/SelectListGroup';
 import Card from '@material-ui/core/Card';
-import { CompanyAction, BusAction } from '../../store/actions/index'
+import { BusAction } from '../../store/actions/index'
 import TextField from '../common/TextField'
 import MultiSelectList from '../common/MultiSelectList'
 import AddIcon from '@material-ui/icons/Add';
@@ -18,7 +18,7 @@ class CreateRoute extends Component {
     this.state = {
       routeTitle: '',
       route_id: '',
-      city: [],
+      stops: [],
       aboutRoute: '',
       errors: {},
       open: false,
@@ -32,7 +32,7 @@ class CreateRoute extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextProps.createdCompany && !nextProps.createCompanyLoader && this.props.createCompanyLoader) {
+    if (nextProps.createdRoute && !nextProps.createRouteLoader && this.props.createRouteLoader) {
       this.props.history.push('/dashboard')
     }
 
@@ -63,14 +63,13 @@ class CreateRoute extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
-    const newCompany = {
+    const newRoute = {
       route_id: this.state.route_id,
       routeTitle: this.state.routeTitle,
-      city: this.state.city,
+      stops: this.state.stops,
       aboutRoute: this.state.aboutRoute,
     };
-    this.props.createCompany(newCompany);
+    this.props.createRoute(newRoute);
   }
 
   onChange(e) {
@@ -80,9 +79,7 @@ class CreateRoute extends Component {
   render() {
     const { errors } = this.state;
     const { classes } = this.props;
-    // Select options for city
-
-
+  
     return (
       <Card className="fade-in create-company-container">
         <AddCityDialog
@@ -97,7 +94,7 @@ class CreateRoute extends Component {
         <form onSubmit={this.onSubmit}>
 
           <TextField
-            placeholder="Company ID"
+            placeholder="Route ID"
             name="route_id"
             value={this.state.route_id}
             onChange={this.onChange}
@@ -117,13 +114,13 @@ class CreateRoute extends Component {
           />
 
           <MultiSelectList
-            placeholder="City"
-            name="city"
-            value={this.state.city}
+            placeholder="stops"
+            name="stops"
+            value={this.state.stops}
             onChange={this.onChange}
             options={this.state.cities}
-            error={errors.city}
-            info="Give us a city where your head office"
+            error={errors.stops}
+            info="Give us a stops where your head office"
             required
             multiple={true}
           />
@@ -154,19 +151,21 @@ CreateRoute.propTypes = {
 
 const mapStateToProps = state => {
   const {
-    CompanyReducer: { createdCompany, createCompanyError, createCompanyLoader },
-    BusReducer: { cities, getCitiesLoader, getCitiesError }
+    BusReducer: { 
+      cities, getCitiesLoader, getCitiesError,
+      createdRoute, createRouteError, createRouteLoader
+     }
   } = state
 
   return {
-    createdCompany, createCompanyError, createCompanyLoader,
+    createdRoute, createRouteError, createRouteLoader,
     cities, getCitiesLoader, getCitiesError
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createCompany: (company) => dispatch(CompanyAction.createCompany(company)),
+    createRoute: (route) => dispatch(BusAction.createRoute(route)),
     getCitiesAction: () => dispatch(BusAction.getCities())
   }
 }
