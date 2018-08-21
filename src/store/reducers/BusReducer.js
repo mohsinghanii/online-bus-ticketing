@@ -4,7 +4,7 @@ import {
     GET_CITIES, GET_CITIES_SUCCESS, GET_CITIES_FAILURE,
     GET_BUSES, GET_BUSES_FAILURE, GET_BUSES_SUCCESS
 } from '../constants'
-import { stat } from 'fs';
+// import { state } from 'fs';
 
 const initialState = {
     createdBus: {},

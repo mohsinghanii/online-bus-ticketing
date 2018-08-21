@@ -63,12 +63,18 @@ export const doAddCity = (city, date_created) =>
 // get city query
 export const getCities = () =>
   new Promise((res, rej) => {
-    let CitiesRef = firestoreDb.collection("cities").onSnapshot((snapshot) => {
-      console.log("Current data: ", snapshot);
-        res(snapshot)
-    }, (error) => {
-      rej(error)
-    });
+    let CitiesRef = firestoreDb.collection("cities");
+    CitiesRef.get()
+      .then((querySnapshot) => {
+        let arr = [];
+        querySnapshot.forEach((doc) => {
+          arr.push(doc.data())
+        })
+        res(arr);
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
+      })
   })
 
 export const getBuses = (cid) =>
@@ -77,12 +83,10 @@ export const getBuses = (cid) =>
     busesRef.where( "cid", "==", cid)
       .get()
       .then((querySnapshot) => {
-
         let arr = [];
         querySnapshot.forEach((doc) => {
           arr.push(doc.data())
         })
-        debugger
         res(arr);
       })
       .catch((error) => {
