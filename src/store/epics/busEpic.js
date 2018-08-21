@@ -2,9 +2,11 @@ import {
     ADD_CITY,
     CREATE_BUS,
     GET_CITIES,
-    GET_BUSES
+    GET_BUSES,
+    CREATE_ROUTE,
+    GET_ROUTES
 } from '../constants';
-import { doCreateBusInCompany, doAddCity, getCities, getBuses } from './../../firebase/db';
+import { doCreateBusInCompany, doAddCity, getCities, getBuses, createRoute, getRoutes } from './../../firebase/db';
 import { Observable } from 'rxjs/Rx';
 import { BusAction } from './../actions/index'
 
@@ -34,12 +36,30 @@ export default class BusEpic {
                 return Observable.fromPromise(doAddCity(city, date_created))
                     .switchMap((response) => {
                         return Observable.of(
-                            BusAction.addCitySuccess(response)
+                            BusAction.addCitySuccess(response),
+                            BusAction.getCities()
                         )
                     })
                     .catch((err) => {
                         return Observable.of(
                             BusAction.addCityFailure(err)
+                        )
+                    })
+            })
+
+    static createRoute = (action$) =>
+        action$.ofType(CREATE_ROUTE)
+            .switchMap(({ payload }) => {
+                const { route_id, routeTitle, stops, aboutRoute } = payload
+                return Observable.fromPromise(createRoute(route_id, routeTitle, stops, aboutRoute))
+                    .switchMap((response) => {
+                        return Observable.of(
+                            BusAction.createRouteSuccess(response)
+                        )
+                    })
+                    .catch((err) => {
+                        return Observable.of(
+                            BusAction.createRouteFailure(err)
                         )
                     })
             })
@@ -56,6 +76,22 @@ export default class BusEpic {
                     .catch((err) => {
                         return Observable.of(
                             BusAction.getCitiesFailure(err)
+                        )
+                    })
+            })
+
+    static getRoutes = (action$) =>
+        action$.ofType(GET_ROUTES)
+            .switchMap(({ }) => {
+                return Observable.fromPromise(getRoutes())
+                    .switchMap((response) => {
+                        return Observable.of(
+                            BusAction.getRoutesSuccess(response)
+                        )
+                    })
+                    .catch((err) => {
+                        return Observable.of(
+                            BusAction.getRoutesFailure(err)
                         )
                     })
             })

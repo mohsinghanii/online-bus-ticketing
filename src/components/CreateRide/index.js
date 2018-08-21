@@ -2,17 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import AddCityDialog from './dialog';
-// import SelectListGroup from '../common/SelectListGroup';
 import Card from '@material-ui/core/Card';
 import { BusAction } from '../../store/actions/index'
 import TextField from '../common/TextField'
-import MultiSelectList from '../common/MultiSelectList'
-import AddIcon from '@material-ui/icons/Add';
-import { Button } from '@material-ui/core';
+import SelectList from '../common/SelectList'
 import './index.css'
 
-class CreateRoute extends Component {
+class CreateRide extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +18,7 @@ class CreateRoute extends Component {
       aboutRoute: '',
       errors: {},
       open: false,
-      cities: [{ label: '* Select City / Stops', value: 0 }]
+      routes: [{ label: '* Select City / Stops', value: 0 }]
     };
 
     this.onChange = this.onChange.bind(this);
@@ -36,20 +32,29 @@ class CreateRoute extends Component {
       this.props.history.push('/dashboard')
     }
 
-    if (this.props.cities !== nextProps.cities) {
-      this.setState({
-        cities: nextProps.cities ? nextProps.cities : []
-      })
+    if (this.props.routes !== nextProps.routes) {
+      this.createSelectRouteOptions(nextProps.routes)
     }
   }
 
   componentWillMount() {
-    this.props.getCitiesAction()
+    this.props.getRoutesAction()
   }
 
   componentDidMount() {
+    if (this.props.routes) {
+      this.createSelectRouteOptions(this.props.routes)
+    }
+  }
+
+  createSelectRouteOptions = (routes) => {
+    let routesTitles = []
+    routes.map((route, i) => {
+      routesTitles.push({ label: route.title, value: i + 1 })
+    })
+
     this.setState({
-      cities: this.props.cities ? this.props.cities : []
+      routes: routesTitles
     })
   }
 
@@ -69,7 +74,7 @@ class CreateRoute extends Component {
       stops: this.state.stops,
       aboutRoute: this.state.aboutRoute,
     };
-    this.props.createRoute(newRoute);
+    // this.props.createRoute(newRoute);
   }
 
   onChange(e) {
@@ -78,18 +83,10 @@ class CreateRoute extends Component {
 
   render() {
     const { errors } = this.state;
-    const { classes } = this.props;
-  
+
     return (
       <Card className="fade-in create-company-container">
-        <AddCityDialog
-          open={this.state.open}
-          handleClose={this.handleClose}
-        />
-        <h1 className="display-4 text-center">Create Route</h1>
-        <Button onClick={this.handleClickOpen} variant="fab" mini color="secondary" aria-label="Add" className={classes.button}>
-          <AddIcon />
-        </Button>
+        <h1 className="display-4 text-center">Create Ride</h1>
 
         <form onSubmit={this.onSubmit}>
 
@@ -113,16 +110,15 @@ class CreateRoute extends Component {
             required
           />
 
-          <MultiSelectList
+          <SelectList
             placeholder="stops"
             name="stops"
             value={this.state.stops}
             onChange={this.onChange}
-            options={this.state.cities}
+            options={this.state.routes}
             error={errors.stops}
-            info="Give us a stops where your head office"
+            info="Give us a city where your head office"
             required
-            multiple={true}
           />
 
           <TextField
@@ -146,31 +142,31 @@ class CreateRoute extends Component {
   }
 }
 
-CreateRoute.propTypes = {
+CreateRide.propTypes = {
 };
 
 const mapStateToProps = state => {
   const {
-    BusReducer: { 
-      cities, getCitiesLoader, getCitiesError,
-      createdRoute, createRouteError, createRouteLoader
-     }
+    BusReducer: {
+      createdRoute, createRouteError, createRouteLoader,
+      routes, getRoutesLoader, getRoutesError,
+    }
   } = state
 
   return {
     createdRoute, createRouteError, createRouteLoader,
-    cities, getCitiesLoader, getCitiesError
+    routes, getRoutesLoader, getRoutesError,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createRoute: (route) => dispatch(BusAction.createRoute(route)),
-    getCitiesAction: () => dispatch(BusAction.getCities())
+    getRoutesAction: () => dispatch(BusAction.getRoutes())
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(withStyles({})(CreateRoute)));
+)(withRouter(withStyles({})(CreateRide)));

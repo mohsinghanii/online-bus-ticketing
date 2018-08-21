@@ -41,7 +41,7 @@ export const doCreateBusInCompany = (bid, cid, bus_name, date_created, no_of_sea
 // add city query
 export const doAddCity = (city, date_created) =>
   new Promise((res, rej) => {
-    let CitiesRef = firestoreDb.collection("cities").doc(city);
+    let CitiesRef = firestoreDb.collection("Cities").doc(city);
     CitiesRef
       .get()
       .then((doc) => {
@@ -60,29 +60,71 @@ export const doAddCity = (city, date_created) =>
         rej(`error in creating doc with ${city}` + err)
       })
   })
+
 // get city query
 export const getCities = () =>
   new Promise((res, rej) => {
-    let CitiesRef = firestoreDb.collection("cities").onSnapshot((snapshot) => {
-      console.log("Current data: ", snapshot);
-        res(snapshot)
-    }, (error) => {
-      rej(error)
-    });
+    let CitiesRef = firestoreDb.collection("Cities");
+    CitiesRef.get()
+      .then((querySnapshot) => {
+        let arr = [];
+        querySnapshot.forEach((doc) => {
+          let option = { label: doc.data().city, value: doc.data().city, date_created: doc.data().date_created }
+          arr.push(option)
+        })
+        res(arr);
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
+      })
+  })
+
+export const createRoute = (route_id, routeTitle, stops, aboutRoute) =>
+  new Promise((res, rej) => {
+    let routeObj = { route_id, title: routeTitle, aboutRoute, stops }
+    let CitiesRef = firestoreDb.collection("Routes").doc(route_id);
+    CitiesRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          rej(`This ${route_id} already exist`)
+        }
+        else {
+          CitiesRef.set(routeObj)
+          res(routeObj)
+        }
+      })
+      .catch((err) => {
+        rej(`error in creating doc with ${route_id}` + err)
+      })
+  })
+
+export const getRoutes = () =>
+  new Promise((res, rej) => {
+    let CitiesRef = firestoreDb.collection("Routes");
+    CitiesRef.get()
+      .then((querySnapshot) => {
+        let arr = [];
+        querySnapshot.forEach((doc) => {
+          arr.push(doc.data())
+        })
+        res(arr);
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
+      })
   })
 
 export const getBuses = (cid) =>
   new Promise((res, rej) => {
     let busesRef = firestoreDb.collection("Buses");
-    busesRef.where( "cid", "==", cid)
+    busesRef.where("cid", "==", cid)
       .get()
       .then((querySnapshot) => {
-
         let arr = [];
         querySnapshot.forEach((doc) => {
           arr.push(doc.data())
         })
-        debugger
         res(arr);
       })
       .catch((error) => {

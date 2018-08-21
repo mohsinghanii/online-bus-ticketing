@@ -2,7 +2,9 @@ import {
     CREATE_BUS, CREATE_BUS_SUCCESS, CREATE_BUS_FAILURE,
     ADD_CITY, ADD_CITY_SUCCESS, ADD_CITY_FAILURE,
     GET_CITIES, GET_CITIES_SUCCESS, GET_CITIES_FAILURE,
-    GET_BUSES, GET_BUSES_FAILURE, GET_BUSES_SUCCESS
+    GET_BUSES, GET_BUSES_FAILURE, GET_BUSES_SUCCESS,
+    CREATE_ROUTE, CREATE_ROUTE_FAILURE, CREATE_ROUTE_SUCCESS,
+    GET_ROUTES, GET_ROUTES_FAILURE, GET_ROUTES_SUCCESS,
 } from './../constants'
 
 export class BusAction {
@@ -64,7 +66,28 @@ export class BusAction {
 
     static getCitiesFailure(payload) {
         return {
-            type: GET_CITIES_SUCCESS,
+            type: GET_CITIES_FAILURE,
+            payload
+        }
+    }
+    
+    static createRoute(payload) {
+        return {
+            type: CREATE_ROUTE,
+            payload
+        }
+    }
+
+    static createRouteSuccess(payload) {
+        return {
+            type: CREATE_ROUTE_SUCCESS,
+            payload
+        }
+    }
+
+    static createRouteFailure(payload) {
+        return {
+            type: CREATE_ROUTE_FAILURE,
             payload
         }
     }
@@ -86,6 +109,27 @@ export class BusAction {
     static getBusesFailure(payload) {
         return {
             type: GET_BUSES_FAILURE,
+            payload
+        }
+    }
+    
+    static getRoutes(payload) {
+        return {
+            type: GET_ROUTES,
+            payload
+        }
+    }
+
+    static getRoutesSuccess(payload) {
+        return {
+            type: GET_ROUTES_SUCCESS,
+            payload
+        }
+    }
+
+    static getRoutesFailure(payload) {
+        return {
+            type: GET_ROUTES_FAILURE,
             payload
         }
     }

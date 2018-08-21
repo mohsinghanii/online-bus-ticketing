@@ -10,92 +10,104 @@ import './index.css'
 
 class Dashboard extends Component {
 
-  componentDidMount() {
-    this.props.companies ? '' : this.props.getCompanies()
-  }
+    componentDidMount() {
+        this.props.companies ? '' : this.props.getCompanies()
+    }
 
-  render() {
-    return (
-      <div className="container" style={{ paddingBottom: '100px' }}>
-        <div className="row">
-          <div className="col-md-12">
-            <div className="row">
-              <div className="col-md-2">
-                <div className="create-company-text">
-                  Create Company
-            </div>
-                <Card className="add-company-card">
-                  <div className='add-company-button-wrapper'>
-                    <button className="add-company-button" onClick={() => { this.props.history.push('/create-company') }}>
-                      <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
-                    </button>
-                  </div>
-                </Card>
-              </div>
-              <div className="col-md-2">
-                <div className="create-company-text">
-                  Create Route
-            </div>
-                <Card className="add-company-card">
-                  <div className='add-company-button-wrapper'>
-                    <button className="add-company-button" onClick={() => { this.props.history.push('/create-route') }}>
-                      <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
-                    </button>
-                  </div>
-                </Card>
-              </div>
-            </div>
-            <hr />
-            {
-              this.props.getCompaniesLoader ?
-                <div style={{ width: '100px', margin: '0 auto', marginTop: '50px' }}>
-                  <ReactLoading type={'spokes'} width={100} color="#999" />
+    render() {
+        return (
+            <div className="container" style={{ paddingBottom: '100px' }}>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="row">
+                            <div className="col-md-2">
+                                <div className="create-company-text">
+                                    Create Company
+                                </div>
+                                <Card className="add-company-card">
+                                    <div className='add-company-button-wrapper'>
+                                        <button className="add-company-button" onClick={() => { this.props.history.push('/create-company') }}>
+                                            <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
+                                        </button>
+                                    </div>
+                                </Card>
+                            </div>
+                            <div className="col-md-2">
+                                <div className="create-company-text">
+                                    Create Route
+                                </div>
+                                <Card className="add-company-card">
+                                    <div className='add-company-button-wrapper'>
+                                        <button className="add-company-button" onClick={() => { this.props.history.push('/create-route') }}>
+                                            <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
+                                        </button>
+                                    </div>
+                                </Card>
+                            </div>
+                            <div className="col-md-2">
+                                <div className="create-company-text">
+                                    Create Ride
+                                </div>
+                                <Card className="add-company-card">
+                                    <div className='add-company-button-wrapper'>
+                                        <button className="add-company-button" onClick={() => { this.props.history.push('/create-ride') }}>
+                                            <img src={require('./../../assets/icons/round_add_circle_outline_black.png')} />
+                                        </button>
+                                    </div>
+                                </Card>
+                            </div>
+                        </div>
+                        <hr />
+                        {
+                            this.props.getCompaniesLoader ?
+                                <div style={{ width: '100px', margin: '0 auto', marginTop: '50px' }}>
+                                    <ReactLoading type={'spokes'} width={100} color="#999" />
+                                </div>
+                                : ''
+                        }
+                        <Grid container spacing={24}>
+                            {
+                                !this.props.getCompaniesLoader && this.props.companies && this.props.companies.map((company, i) => {
+                                    return (
+                                        <Grid item sm={3} key={i}>
+                                            <CompanyCard
+                                                company={company}
+                                                selectedCompanyAction={this.props.selectedCompanyAction}
+                                                history={this.props.history}
+                                            />
+                                        </Grid>
+                                    )
+                                })
+                            }
+                        </Grid>
+                        {
+                            this.props.getCompaniesError && !this.props.getCompaniesLoader && !this.props.companies ?
+                                <div>{this.props.getCompaniesError}</div> : ''
+                        }
+                    </div>
                 </div>
-                : ''
-            }
-            <Grid container spacing={24}>
-              {
-                !this.props.getCompaniesLoader && this.props.companies && this.props.companies.map((company, i) => {
-                  return (
-                    <Grid item sm={3} key={i}>
-                      <CompanyCard
-                        company={company}
-                        selectedCompanyAction={this.props.selectedCompanyAction}
-                        history={this.props.history}
-                      />
-                    </Grid>
-                  )
-                })
-              }
-            </Grid>
-            {
-              this.props.getCompaniesError && !this.props.getCompaniesLoader && !this.props.companies ?
-                <div>{this.props.getCompaniesError}</div> : ''
-            }
-          </div>
-        </div>
-      </div>
-    );
-  }
+            </div>
+        );
+    }
 }
 
 
 const mapStateToProps = (state) => {
-  const { CompanyReducer: { companies, getCompaniesError, getCompaniesLoader } } = state
+    const { CompanyReducer: { companies, getCompaniesError, getCompaniesLoader } } = state
 
-  return {
-    companies, getCompaniesError, getCompaniesLoader
-  };
+    return {
+        companies, getCompaniesError, getCompaniesLoader
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getCompanies: () => dispatch(CompanyAction.getCompanies()),
-    selectedCompanyAction: (obj) => dispatch(CompanyAction.selectedCompany(obj))
-  }
+    return {
+        getCompanies: () => dispatch(CompanyAction.getCompanies()),
+        selectedCompanyAction: (obj) => dispatch(CompanyAction.selectedCompany(obj))
+    }
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(withRouter(Dashboard));
