@@ -49,7 +49,7 @@ class CreateRide extends Component {
 
   createSelectRouteOptions = (routes) => {
     let routesTitles = []
-    routes.map((route, i) => {
+    routes && routes.map((route, i) => {
       routesTitles.push({ label: route.title, value: i + 1 })
     })
 
