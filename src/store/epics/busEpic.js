@@ -99,7 +99,6 @@ export default class BusEpic {
     static getBuses = (action$) =>
         action$.ofType(GET_BUSES)
             .switchMap(({ payload }) => {
-                debugger
                 return Observable.fromPromise(getBuses(payload))
                     .switchMap((response) => {
                         return Observable.of(

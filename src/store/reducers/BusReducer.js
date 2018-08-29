@@ -23,7 +23,7 @@ const initialState = {
     getCitiesError: null,
 
     getBusLoader: false,
-    getBuses: [],
+    getBuses: null,
     getBusesError: { isError: false, error: null },
 
     createdRoute: null,
@@ -111,7 +111,7 @@ export default function BusReducer(state = initialState, action) {
             return {
                 ...state,
                 getBusLoader: true,
-                getBuses: {},
+                getBuses: null,
                 getBusesError: { isError: false, error: "" }
             }
 
