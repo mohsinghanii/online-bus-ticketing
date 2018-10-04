@@ -9,10 +9,13 @@ import {
 // import { state } from 'fs';
 
 const initialState = {
-    createdBus: {},
+    createdBus: "",
+    isCreatedBus: false,
     isLoading: false,
-    isError: false,
-    error: '',
+    error: {
+        isError: false,
+        message: ""
+    },
 
     createdCity: null,
     createCityLoader: false,
@@ -40,27 +43,29 @@ export default function BusReducer(state = initialState, action) {
         case CREATE_BUS:
             return {
                 ...state,
-                createdBus: {},
+                createdBus: "",
                 isLoading: true,
-                isError: false,
-                error: ''
+                isCreatedBus: false,
+                error: {
+                    isError: false,
+                    message: ""
+                },
             }
         case CREATE_BUS_SUCCESS:
             return {
                 ...state,
-                isError: false,
+                isCreatedBus: true,
                 createdBus: action.payload,
                 isLoading: false,
-                error: '',
             }
         case CREATE_BUS_FAILURE:
             return {
                 ...state,
                 isLoading: false,
-                isAuthenticated: false,
-                isError: true,
-                createdBus: {},
-                error: action.payload,
+                error: {
+                    isError: true,
+                    message: action.payload
+                },
             }
 
         case ADD_CITY:

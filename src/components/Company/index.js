@@ -37,7 +37,7 @@ class Company extends React.Component {
         this.handleClose = this.handleClose.bind(this);
       }
 
-    componentWillMount() {
+    componentDidMount() {
         let company_id = this.props.match.params.cid
         this.props.getCompany({ company_id })
     }

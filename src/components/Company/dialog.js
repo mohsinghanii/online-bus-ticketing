@@ -10,6 +10,8 @@ import {
     DialogTitle,
     CircularProgress
 } from '../../material-ui/index';
+import { Loading } from './../common/loadingComponent';
+import { Alert } from './../common/Alert';
 import { BusAction } from '../../store/actions/index';
 import { connect } from 'react-redux';
 
@@ -44,10 +46,13 @@ class BusFormDialog extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.createdBus !== this.props.createdBus) {
-            this.props.handleClose()
+    componentDidUpdate(prevProps, prevState){
+       
+        debugger
+        if(this.props.isCreatedBus && !prevProps.isCreatedBus){ // if the bus is successfully created
+             this.props.handleClose() // close the modal
         }
+
     }
 
     handleChange(event) {
@@ -76,6 +81,7 @@ class BusFormDialog extends React.Component {
                     onClose={this.props.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
+                    <Alert isError={this.props.error.isError} errorMessage={this.props.error.message} type={"danger"} />
                     <DialogTitle id="form-dialog-title">Add Bus Name and Number</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -110,18 +116,7 @@ class BusFormDialog extends React.Component {
                             fullWidth
                         />
                     </DialogContent>
-                    {
-                        (this.props.isLoading) ?
-                            <CircularProgress thickness={7} />
-                            :
-                            ""
-                    }
-                    {
-                        (this.props.isError) ?
-                            <p style={{ textAlign: 'center', color: "red" }}>{this.props.error}</p>
-                            :
-                            ''
-                    }
+                    <Loading isLoading={this.props.isLoading} type={"spin"} color={"black"} />
                     <DialogActions>
                         <Button onClick={this.props.handleClose} color="primary">
                             Cancel
@@ -139,9 +134,9 @@ class BusFormDialog extends React.Component {
 BusFormDialog.propTypes = {
     selectedComapany: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    isError: PropTypes.bool.isRequired,
+    error: PropTypes.object.isRequired,
     createdBus: PropTypes.string.isRequired,
-    error: PropTypes.string.isRequired
+    isCreatedBus: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -151,10 +146,10 @@ const mapStateToProps = (state) => {
     } = state
     return {
         isLoading: BusReducer.isLoading,
-        isError: BusReducer.isError,
-        createdBus: BusReducer.createdBus, // will not need in future
         error: BusReducer.error,
-        selectedComapany: CompanyReducer.selectedCompany
+        createdBus: BusReducer.createdBus, // will not need in future
+        selectedComapany: CompanyReducer.selectedCompany,
+        isCreatedBus: BusReducer.isCreatedBus
     }
 }
 
