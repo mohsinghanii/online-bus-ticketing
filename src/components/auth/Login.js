@@ -5,6 +5,8 @@ import { userAuthActions } from './../../store/actions/userAction';
 import { loginUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import Card from '@material-ui/core/Card';
+import { Alert } from '../common/Alert';
+
 import './index.css'
 
 class Login extends Component {
@@ -13,7 +15,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errors: {}
+      error: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -31,8 +33,8 @@ class Login extends Component {
       this.props.history.push('/dashboard');
     }
 
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if (nextProps.error) {
+      this.setState({ error: nextProps.error });
     }
   }
 
@@ -52,10 +54,11 @@ class Login extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { error } = this.state;
 
     return (
       <Card className="login-form-container fade-in">
+       <Alert type="danger" isError={this.props.isError} errorMessage={this.state.error} />
         <h1 className="display-4 text-center">Log In</h1>
         <p className="lead text-center">Sign in to your Secured.fyi account</p>
         <form onSubmit={this.onSubmit}>
@@ -65,7 +68,6 @@ class Login extends Component {
             type="email"
             value={this.state.email}
             onChange={this.onChange}
-            error={errors.email}
           />
 
           <TextFieldGroup
@@ -74,7 +76,6 @@ class Login extends Component {
             type="password"
             value={this.state.password}
             onChange={this.onChange}
-            error={errors.password}
           />
 
           <input type="submit" className="btn btn-info btn-block mt-4" />

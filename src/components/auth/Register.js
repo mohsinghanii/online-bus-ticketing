@@ -66,7 +66,7 @@ class Register extends Component {
         <p className="lead text-center">
           Create your Secured.fyi account
               </p>
-        <Alert type="danger" isError={this.props.isError} errorMessage={this.state.error} />
+        <Alert type="danger" isError={this.props.isError} errorMessage={this.props.error} />
         <form noValidate onSubmit={this.onSubmit}>
           <TextFieldGroup
             placeholder="Name"
@@ -109,7 +109,7 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.string,
+  error: PropTypes.string,
   isError: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
