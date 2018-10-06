@@ -23,18 +23,18 @@ class CompanyCard extends React.Component {
     const { classes, company } = this.props;
     return (
       <div>
-        <Card className={classes.card} className="fade-in company-card-container" onClick={()=>this.viewCompany(company)}>
+        <Card className={classes.card} className="fade-in card-container" onClick={()=>this.viewCompany(company)}>
           <CardHeader
             style={{ padding: '15px' }}
             title={company.companyName}
             subheader={company.city + ' - ' + company.contact}
           />
 
-          <div className="company-card-content">
+          <div className="card-content">
             <p>{company.companyDetail}</p>
           </div>
 
-          <div className="company-card-footer">
+          <div className="card-footer">
             <p>Number of Busses: <span>{company.noOfBus}</span></p>
           </div>
         </Card>
