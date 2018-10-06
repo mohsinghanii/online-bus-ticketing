@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-import CompanyCard from './CompanyCard'
 import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import ReactLoading from "react-loading";
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { CompanyAction } from '../../store/actions/index'
+import Companies from './companies';
+import Routes from './Routes';
 import './index.css'
 
 class Dashboard extends Component {
 
-    componentDidMount() {
-        this.props.companies ? '' : this.props.getCompanies()
-    }
 
     render() {
         return (
@@ -58,32 +52,12 @@ class Dashboard extends Component {
                             </div>
                         </div>
                         <hr />
-                        {
-                            this.props.getCompaniesLoader ?
-                                <div style={{ width: '100px', margin: '0 auto', marginTop: '50px' }}>
-                                    <ReactLoading type={'spokes'} width={100} color="#999" />
-                                </div>
-                                : ''
-                        }
-                        <Grid container spacing={24}>
-                            {
-                                !this.props.getCompaniesLoader && this.props.companies && this.props.companies.map((company, i) => {
-                                    return (
-                                        <Grid item sm={3} key={i}>
-                                            <CompanyCard
-                                                company={company}
-                                                selectedCompanyAction={this.props.selectedCompanyAction}
-                                                history={this.props.history}
-                                            />
-                                        </Grid>
-                                    )
-                                })
-                            }
-                        </Grid>
-                        {
-                            this.props.getCompaniesError && !this.props.getCompaniesLoader && !this.props.companies ?
-                                <div>{this.props.getCompaniesError}</div> : ''
-                        }
+                        <h3> Companies </h3>
+                        <Companies history={this.props.history} />
+                        <hr />
+                        <h3> Routes </h3>
+                        <Routes history={this.props.history} />
+
                     </div>
                 </div>
             </div>
@@ -92,22 +66,4 @@ class Dashboard extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    const { CompanyReducer: { companies, getCompaniesError, getCompaniesLoader } } = state
-
-    return {
-        companies, getCompaniesError, getCompaniesLoader
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getCompanies: () => dispatch(CompanyAction.getCompanies()),
-        selectedCompanyAction: (obj) => dispatch(CompanyAction.selectedCompany(obj))
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withRouter(Dashboard));
+export default withRouter(Dashboard);
