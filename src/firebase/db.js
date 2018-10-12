@@ -131,3 +131,24 @@ export const getBuses = (cid) =>
         rej("Error getting documents: ", error)
       })
   })
+
+export const createRide = (ride_id, ride_title, cid, bid, arrDate, depDate) =>
+  new Promise((res, rej) => {
+    debugger
+    let rideObj = { ride_id, title: ride_title, cid, bid, arrDate, depDate }
+    let RideRef = firestoreDb.collection("Ride").doc(ride_id);
+    RideRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          rej(`This ${ride_id} already exist`)
+        }
+        else {
+          RideRef.set(rideObj)
+          res(rideObj)
+        }
+      })
+      .catch((err) => {
+        rej(`error in creating doc with ${ride_id}` + err)
+      })
+  })
