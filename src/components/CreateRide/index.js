@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import { BusAction } from '../../store/actions/index'
-import TextField from '../common/TextField'
-import SelectList from '../common/SelectList'
+import { RideAction } from '../../store/actions/rideAction';
+import { BusAction } from './../../store/actions/busAction';
+import TextField from '../common/TextField';
+import SelectList from '../common/SelectList';
 import './index.css'
 
 class CreateRide extends Component {
@@ -16,8 +17,8 @@ class CreateRide extends Component {
       ride_id: '',
       company: '',
       bus: '',
-      stop: '',
-      aboutRoute: '',
+      depDate:'',
+      arrDate:'',
       errors: {},
       open: false,
       routes: [{ label: '* Select City / Stops', value: 0 }],
@@ -32,7 +33,7 @@ class CreateRide extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextProps.createdRoute && !nextProps.createRouteLoader && this.props.createRouteLoader) {
+    if (nextProps.isCreated && !nextProps.isLoading && this.props.isLoading) {
       this.props.history.push('/dashboard')
     }
 
@@ -43,7 +44,7 @@ class CreateRide extends Component {
     if (this.props.companies !== nextProps.companies) {
       this.createSelectCompanyOptions(nextProps.companies)
     }
-    
+
     if (this.props.getBuses !== nextProps.getBuses) {
       this.createSelectBusesOptions(nextProps.getBuses)
     }
@@ -54,6 +55,7 @@ class CreateRide extends Component {
   }
 
   componentDidMount() {
+    this.props.getRoutesAction()
     if (this.props.routes) {
       this.createSelectRouteOptions(this.props.routes)
     }
@@ -83,13 +85,13 @@ class CreateRide extends Component {
       companies: companyTitles
     })
   }
-  
+
   createSelectBusesOptions = (buses) => {
     let busTitles = []
     buses && buses.map((bus, i) => {
       busTitles.push({ label: bus.bus_name, value: bus.bid })
     })
-    debugger
+
     this.setState({
       buses: busTitles
     })
@@ -107,17 +109,18 @@ class CreateRide extends Component {
     e.preventDefault();
     const newRoute = {
       ride_id: this.state.ride_id,
-      rideTitle: this.state.rideTitle,
-      stop: this.state.stop,
-      company: this.state.company,
-      aboutRoute: this.state.aboutRoute,
+      ride_title: this.state.rideTitle,
+      bid: this.state.bus,
+      cid: this.state.company,
+      arrDate: this.state.arrDate,
+      depDate: this.state.depDate
     };
-    // this.props.createRoute(newRoute);
+    this.props.createRideAction(newRoute);
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    if(e.target.name === 'company'){
+    if (e.target.name === 'company') {
       this.props.getBusesAction(e.target.value)
     }
   }
@@ -151,6 +154,29 @@ class CreateRide extends Component {
             required
           />
 
+          <TextField
+            placeholder="Ride Departure"
+            type="date"
+            name="depDate"
+            value={this.state.depDate}
+            onChange={this.onChange}
+            error={errors.depDate}
+            required
+          />
+
+
+          <TextField
+            placeholder="Ride Arrival"
+            type="date"
+            name="arrDate"
+            value={this.state.arrDate}
+            onChange={this.onChange}
+            error={errors.arrDate}
+            required
+          />
+
+
+
           <SelectList
             placeholder="Select a Company"
             name="company"
@@ -162,16 +188,20 @@ class CreateRide extends Component {
             required
           />
 
-          <SelectList
-            placeholder="Select a Bus"
-            name="bus"
-            value={this.state.bus}
-            onChange={this.onChange}
-            options={this.state.buses}
-            error={errors.bus}
-            info="Select a Bus which will ready to ride"
-            required
-          />
+          {
+            (this.state.company) ? // if we have company then show the buses
+              <SelectList
+                placeholder="Select a Bus"
+                name="bus"
+                value={this.state.bus}
+                onChange={this.onChange}
+                options={this.state.buses}
+                error={errors.bus}
+                info="Select a Bus which will ready to ride"
+                required
+              /> :
+              ""
+          }
 
           <SelectList
             placeholder="Select Route"
@@ -187,6 +217,7 @@ class CreateRide extends Component {
           <input
             type="submit"
             value="Submit"
+            onClick={this.onSubmit}
             className="btn btn-info btn-block mt-4"
           />
         </form>
@@ -201,15 +232,16 @@ CreateRide.propTypes = {
 const mapStateToProps = state => {
   const {
     BusReducer: {
-      createdRoute, createRouteError, createRouteLoader,
       routes, getRoutesLoader, getRoutesError,
       getBusLoader, getBuses, getBusesError
     },
-    CompanyReducer: { companies, getCompaniesError, getCompaniesLoader }
+    CompanyReducer: { companies, getCompaniesError, getCompaniesLoader },
+    RideReducer: { isLoading , isCreated, error}
+
   } = state
 
   return {
-    createdRoute, createRouteError, createRouteLoader,
+    isLoading , isCreated, error, // ride creation redux state
     routes, getRoutesLoader, getRoutesError,
     getBusLoader, getBuses, getBusesError,
     companies, getCompaniesError, getCompaniesLoader
@@ -218,7 +250,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createRoute: (route) => dispatch(BusAction.createRoute(route)),
+    createRideAction: (obj) => dispatch(RideAction.createRide(obj)),
     getRoutesAction: () => dispatch(BusAction.getRoutes()),
     getBusesAction: (cid) => dispatch(BusAction.getBuses(cid)),
   }
