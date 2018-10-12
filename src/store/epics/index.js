@@ -2,6 +2,7 @@ import { combineEpics } from 'redux-observable';
 import AuthEpic from './userEpic';
 import CompanyEpic from './CompanyEpic';
 import BusEpic from './busEpic';
+import RideEpic from './rideEpic';
 
 const rootEpic = combineEpics(
     AuthEpic.signUpEpic,
@@ -17,6 +18,9 @@ const rootEpic = combineEpics(
     BusEpic.getBuses,
     BusEpic.createRoute,
     BusEpic.getRoutes,
+
+    //Ride
+    RideEpic.createRide
 
 );
 
