@@ -8,12 +8,6 @@ import './index.css'
 
 class BusCard extends React.Component {
 
-//   viewCompany(bus) {
-//     const { history, selectedCompanyAction } = this.props
-//     history.push(`/bus/${bus.company_id}`)
-//     selectedCompanyAction(bus)
-//   }
-
   displayDate = (seconds) => {
      return new Date( new Date( new Date() - new Date(seconds)) )
   }
