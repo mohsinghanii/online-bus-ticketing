@@ -1,5 +1,6 @@
 import {
     CREATE_RIDE, CREATE_RIDE_FAILURE, CREATE_RIDE_SUCCESS,
+    GET_RIDES, GET_RIDES_FAILURE, GET_RIDES_SUCCESS
 } from './../constants'
 
 export class RideAction {
@@ -24,5 +25,27 @@ export class RideAction {
             payload
         }
     }
+
+    static getRides(payload) {
+        return {
+            type: GET_RIDES,
+            payload
+        }
+    }
+
+    static getRidesSuccess(payload) {
+        return {
+            type: GET_RIDES_SUCCESS,
+            payload
+        }
+    }
+
+    static getRidesFailure(payload) {
+        return {
+            type: GET_RIDES_FAILURE,
+            payload
+        }
+    }
+
 
 }

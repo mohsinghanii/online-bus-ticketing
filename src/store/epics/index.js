@@ -20,7 +20,8 @@ const rootEpic = combineEpics(
     BusEpic.getRoutes,
 
     //Ride
-    RideEpic.createRide
+    RideEpic.createRide,
+    RideEpic.getRides
 
 );
 

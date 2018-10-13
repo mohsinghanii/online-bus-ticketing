@@ -132,11 +132,10 @@ export const getBuses = (cid) =>
       })
   })
 
-export const createRide = (ride_id, ride_title, cid, bid, arrDate, depDate) =>
+export const createRide = (ride_id, ride_title, cid, bid, arrDate, depDate, route_id) =>
   new Promise((res, rej) => {
-    debugger
-    let rideObj = { ride_id, title: ride_title, cid, bid, arrDate, depDate }
-    let RideRef = firestoreDb.collection("Ride").doc(ride_id);
+    let rideObj = { ride_id, title: ride_title, cid, bid, arrDate, depDate, route_id }
+    let RideRef = firestoreDb.collection("Rides").doc(ride_id);
     RideRef
       .get()
       .then((doc) => {
@@ -150,5 +149,21 @@ export const createRide = (ride_id, ride_title, cid, bid, arrDate, depDate) =>
       })
       .catch((err) => {
         rej(`error in creating doc with ${ride_id}` + err)
+      })
+  })
+
+  export const getRides = () =>
+  new Promise((res, rej) => {
+    let ridesRef = firestoreDb.collection("Rides");
+    ridesRef.get()
+      .then((querySnapshot) => {
+        let arr = [];
+        querySnapshot.forEach((doc) => {
+          arr.push(doc.data())
+        })
+        res(arr);
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
       })
   })

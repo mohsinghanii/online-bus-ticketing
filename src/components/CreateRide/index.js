@@ -13,12 +13,13 @@ class CreateRide extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      route_id: '',
       rideTitle: '',
       ride_id: '',
       company: '',
       bus: '',
-      depDate:'',
-      arrDate:'',
+      depDate: '',
+      arrDate: '',
       errors: {},
       open: false,
       routes: [{ label: '* Select City / Stops', value: 0 }],
@@ -50,11 +51,9 @@ class CreateRide extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.getRoutesAction()
-  }
-
   componentDidMount() {
+    this.props.getRoutesAction()
+
     this.props.getRoutesAction()
     if (this.props.routes) {
       this.createSelectRouteOptions(this.props.routes)
@@ -67,7 +66,7 @@ class CreateRide extends Component {
   createSelectRouteOptions = (routes) => {
     let routesTitles = []
     routes && routes.map((route, i) => {
-      routesTitles.push({ label: route.title, value: i + 1 })
+      routesTitles.push({ label: route.title, value: route.route_id })
     })
 
     this.setState({
@@ -113,7 +112,8 @@ class CreateRide extends Component {
       bid: this.state.bus,
       cid: this.state.company,
       arrDate: this.state.arrDate,
-      depDate: this.state.depDate
+      depDate: this.state.depDate,
+      route_id: this.state.route_id
     };
     this.props.createRideAction(newRoute);
   }
@@ -205,8 +205,8 @@ class CreateRide extends Component {
 
           <SelectList
             placeholder="Select Route"
-            name="stop"
-            value={this.state.stop}
+            name="route_id"
+            value={this.state.route_id}
             onChange={this.onChange}
             options={this.state.routes}
             error={errors.stop}
@@ -236,12 +236,12 @@ const mapStateToProps = state => {
       getBusLoader, getBuses, getBusesError
     },
     CompanyReducer: { companies, getCompaniesError, getCompaniesLoader },
-    RideReducer: { isLoading , isCreated, error}
+    RideReducer: { isLoading, isCreated, error }
 
   } = state
 
   return {
-    isLoading , isCreated, error, // ride creation redux state
+    isLoading, isCreated, error, // ride creation redux state
     routes, getRoutesLoader, getRoutesError,
     getBusLoader, getBuses, getBusesError,
     companies, getCompaniesError, getCompaniesLoader
