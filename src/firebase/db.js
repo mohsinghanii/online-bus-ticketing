@@ -152,7 +152,7 @@ export const createRide = (ride_id, ride_title, cid, bid, arrDate, depDate, rout
       })
   })
 
-  export const getRides = () =>
+export const getRides = () =>
   new Promise((res, rej) => {
     let ridesRef = firestoreDb.collection("Rides");
     ridesRef.get()
