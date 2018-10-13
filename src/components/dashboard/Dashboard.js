@@ -3,6 +3,7 @@ import Card from '@material-ui/core/Card';
 import { withRouter } from 'react-router-dom';
 import Companies from './companies';
 import Routes from './Routes';
+import Rides from './rides';
 import './index.css'
 
 class Dashboard extends Component {
@@ -53,10 +54,13 @@ class Dashboard extends Component {
                         </div>
                         <hr />
                         <h3> Companies </h3>
-                        <Companies history={this.props.history} />
+                        <Companies />
                         <hr />
                         <h3> Routes </h3>
-                        <Routes history={this.props.history} />
+                        <Routes />
+                        <hr />
+                        <h3> Rides </h3>
+                        <Rides />
 
                     </div>
                 </div>
