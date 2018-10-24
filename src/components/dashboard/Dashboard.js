@@ -54,13 +54,13 @@ class Dashboard extends Component {
                         </div>
                         <hr />
                         <h3> Companies </h3>
-                        <Companies />
+                        <Companies history={this.props.history}/>
                         <hr />
                         <h3> Routes </h3>
-                        <Routes />
+                        <Routes history={this.props.history}/>
                         <hr />
                         <h3> Rides </h3>
-                        <Rides />
+                        <Rides history={this.props.history}/>
 
                     </div>
                 </div>

@@ -167,3 +167,51 @@ export const getRides = () =>
         rej("Error getting documents: ", error)
       })
   })
+
+export const getRide = (ride_id) =>
+  new Promise((res, rej) => {
+    let rideRef = firestoreDb.collection("Rides").doc(ride_id);
+    rideRef.get()
+      .then((doc) => {
+        if (doc.exists) {
+          let ride = doc.data(); // get Ride details
+          getRoute(ride.route_id).then((routeInfo) => { // geTrOUTE DETAILS
+            if (routeInfo) {
+              ride["routeInfo"] = routeInfo
+              debugger
+            }
+            else {
+              ride["routeInfo"] = null
+            }
+          })
+        } else { // NO RIDE DETAILS
+          res(null)
+        }
+
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
+      })
+
+  })
+
+export const getRoute = (route_id) =>
+  new Promise((res, rej) => {
+    let routeRef = firestoreDb.collection("Routes").doc(route_id);
+    routeRef.get()
+      .then((doc) => {
+        if (doc.exists) {
+          res(doc.data())
+        } else {
+          res(null)
+        }
+      })
+      .catch((error) => {
+        rej("Error getting documents: ", error)
+      })
+
+  })
+
+  export const getRideandItsRouteDetails = () => {
+    
+  }
