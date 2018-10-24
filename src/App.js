@@ -30,6 +30,7 @@ import CreateCompany from './components/CreateCompany'
 import CreateRoute from './components/CreateRoute'
 import CreateRide from './components/CreateRide'
 import Company from './components/Company'
+import { BusSearch } from './components/bus-search/busSearch'
 
 // Check for token
 
@@ -37,19 +38,20 @@ import Company from './components/Company'
 
 class App extends Component {
 
-  componentDidMount(){
-    auth.onAuthStateChanged(function (user) {
-      if (user) {
-        const { email, uid, metadata } = user
-        store.dispatch(userAuthActions.isLoggedInSuccess({email, uid, metadata}))
-        // User is signed in.
-      } else {
-        store.dispatch(userAuthActions.isLoggedInFailure())
-        // No user is signed in.
-      }
-    });
+  componentDidMount() {
+
+    // auth.onAuthStateChanged(function (user) {
+    //   if (user) {
+    //     const { email, uid, metadata } = user
+    //     store.dispatch(userAuthActions.isLoggedInSuccess({email, uid, metadata}))
+    //     // User is signed in.
+    //   } else {
+    //     store.dispatch(userAuthActions.isLoggedInFailure())
+    //     // No user is signed in.
+    //   }
+    // });
   }
-  
+
 
   render() {
     return (
@@ -57,7 +59,7 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={Landing} />
+            <Route exact path="/" component={BusSearch} />
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
